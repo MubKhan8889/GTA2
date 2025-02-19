@@ -5,6 +5,12 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
+        <!-- Title -->
+        <div class="mb-4">
+            <h1 class="text-2xl">Login</h1>
+            <hr class="my-2 h-0.5 border-t-0 bg-gray-400" />
+        </div>
+
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
