@@ -4,18 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Apprentice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApprenticeController extends Controller
 {
-    public function show($id)
-    {
-        // Retrieves the apprentice and related account details
-        $apprentice = Apprentice::with('account')->find($id);
+    // Displays all apprentices
+    public function index()
+{
+    $apprentices = Apprentice::with('user', 'apprenticeship')->get(); 
 
-        if (!$apprentice) {
-            return response()->json(['message' => 'Apprentice not found'], 404);
-        }
-
-        return response()->json($apprentice);
-    }
+    return view('learners.index', compact('apprentices'));
 }
+
+// Display details of a specific apprentice
+public function show($apprentice_id)
+{
+    $apprentice = Apprentice::with('user', 'apprenticeship')->where('apprentice_id', $apprentice_id)->first();
+
+    if (!$apprentice) {
+        return redirect('/apprentices')->with('error', 'Apprentice not found');
+    }
+
+    return view('learner', compact('apprentice'));
+}
+}
+
