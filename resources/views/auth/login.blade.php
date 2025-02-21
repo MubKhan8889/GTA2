@@ -8,20 +8,20 @@
         <!-- Title -->
         <div class="mb-8">
             <h1 class="text-2xl">Login</h1>
-            <hr class="my-2 h-0.5 border-t-0 bg-gray-400" />
+            <hr class="my-2 h-0.5 border-t-0 bg-gray-400 text-gray-600" />
         </div>
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="username" :value="__('Username')" />
+            <x-input-label for="name" :value="__('Username')" />
 
-            <x-text-input id="username" class="block mt-1 w-full"
+            <x-text-input id="name" class="block mt-1 w-full"
                     type="text"
-                    name="username"
-                    :value="old('username')"
-                    required autofocus autocomplete="username" />
+                    name="name"
+                    :value="old('name')"
+                    required autofocus autocomplete="name" />
 
-            <x-input-error :messages="$errors->get('username')" class="mt-2" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Password -->
