@@ -17,20 +17,23 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             @include('layouts.hotbar')
-            @include('layouts.navigation')
 
             <!-- Page Content -->
-            <main>
-                <!-- Page Heading -->
-                @isset($header)
-                    <header class="bg-white shadow">
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
-                @endisset
+            <main class="fixed flex w-full h-full">
+                @include('layouts.sidebar')
 
-                {{ $slot }}
+                <div class="grow">
+                    <!-- Page Heading -->
+                    @isset($header)
+                        <header class="bg-white shadow">
+                            <div class="ma-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                                {{ $header }}
+                            </div>
+                        </header>
+                    @endisset
+
+                    {{ $slot }}
+                </div>
             </main>
         </div>
     </body>
