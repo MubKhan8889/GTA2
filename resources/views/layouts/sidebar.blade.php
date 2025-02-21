@@ -21,9 +21,10 @@
         </div>
 
         <div class="hidden sm:flex">
-            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard2')">
-                {{ __('Example 1234') }}
+            <x-nav-link :href="route('learners.index')" :active="request()->routeIs('learners.index')">
+                {{ __('Learners') }}
             </x-nav-link>
+
         </div>
     </div>
 </nav>
