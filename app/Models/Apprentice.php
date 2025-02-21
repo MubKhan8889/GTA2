@@ -11,12 +11,12 @@ class Apprentice extends Model
 
     protected $table = 'Apprentice';
 
-    protected $primaryKey = 'apprentice_id'; 
+    protected $primaryKey = 'apprentice_id';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'account_id',
+        'id', // User ID (Foreign Key)
         'apprenticeship_id',
         'uln',
         'cohort',
@@ -27,9 +27,14 @@ class Apprentice extends Model
         'release_day',
     ];
 
-        public function account()
+    public function user()
     {
-        return $this->belongsTo(Account::class, 'account_id', 'account_id');
+        return $this->belongsTo(User::class, 'id', 'id');
     }
 
+
+    public function apprenticeship()
+    {
+        return $this->belongsTo(Apprenticeship::class, 'apprenticeship_id', 'apprenticeship_id');
+    }
 }
