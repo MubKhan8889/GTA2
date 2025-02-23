@@ -12,10 +12,18 @@
                 GTA logo here
             </div>
             <ul class="mt-4 space-y-2">
-                <li class="p-2 bg-white rounded"><a href="#">Dashboard</a></li>
-                <li class="p-2 bg-white rounded"><a href="#">Apprentice progress</a></li>
-                <li class="p-2 bg-white rounded"><a href="#">Edit apprentice info</a></li>
-                <li class="p-2 bg-white rounded"><a href="#">Archive learners</a></li>
+                <li class="p-2 bg-white rounded">
+                    <a href="{{ route('dashboard') }}">Dashboard</a>
+                </li>
+                <li class="p-2 bg-white rounded">
+                    <a href="{{ route('apprentice-progress') }}">Apprentice progress</a>
+                </li>
+                <li class="p-2 bg-white rounded">
+                    <a href="{{ route('edit-apprentice') }}">Edit apprentice info</a>
+                </li>
+                <li class="p-2 bg-white rounded">
+                    <a href="{{ route('archive-learners') }}">Archive learners</a>
+                </li>
             </ul>
         </div>
 
