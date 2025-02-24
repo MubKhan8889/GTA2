@@ -3,9 +3,7 @@
 use App\Http\Controllers\ApprenticeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
-
 
 // All Apprentices:
 Route::get('/learners', [ApprenticeController::class, 'index'])->name('learners.index');
