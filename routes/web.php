@@ -5,17 +5,13 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // All Apprentices:
 Route::get('/learners', [ApprenticeController::class, 'index'])->name('learners.index');
 
 // Selected Apprentice
 Route::get('/learner/{apprentice_id}', [ApprenticeController::class, 'show'])->name('learner.show');
 
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
