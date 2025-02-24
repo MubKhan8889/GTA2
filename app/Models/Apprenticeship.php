@@ -22,4 +22,8 @@ class Apprenticeship extends Model
     {
         return $this->hasMany(Apprentice::class, 'apprenticeship_id');
     }
+
+    // public function tutors(){
+    //     return $this->
+    // }
 }
