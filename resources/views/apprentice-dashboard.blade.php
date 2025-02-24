@@ -6,26 +6,6 @@
     </x-slot>
 
     <div class="flex">
-        <!-- Sidebar -->
-        <div class="w-1/4 bg-gray-200 h-screen p-4">
-            <div class="bg-gray-300 p-4 text-center font-bold">
-                GTA logo here
-            </div>
-            <ul class="mt-4 space-y-2">
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('apprentice-dashboard') }}">Dashboard</a>
-                </li>
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('view-duties-rag') }}">View duties RAG</a>
-                </li>
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('view-hours') }}">View hours</a>
-                </li>
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('view-apprenticeship') }}">View apprenticeship</a>
-                </li>
-            </ul>
-        </div>
 
         <!-- Main Content -->
         <div class="w-3/4 p-6">

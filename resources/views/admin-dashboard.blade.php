@@ -2,24 +2,11 @@
     <h1 class="text-2xl">Dashboard for Admin</h1>
 
     <div class="flex">
-        <!-- Sidebar -->
-        <div class="w-1/4 bg-gray-200 p-4">
-            <h2 class="text-lg font-bold">GTA logo here</h2>
-            <p class="mt-2 font-semibold">{{ $user->name }}</p> <!-- Dynamic Admin Name -->
-            
-            <ul class="mt-4">
-                <li><a href="{{ route('admin-dashboard') }}" class="block py-2">Dashboard</a></li>
-                <li><a href="{{ route('view-accounts') }}" class="block py-2">View accounts</a></li>
-                <li><a href="{{ route('edit-account-details') }}" class="block py-2">Edit account details</a></li>
-                <li><a href="{{ route('edit-apprentice-info') }}" class="block py-2">Edit apprentice info</a></li>
-                <li><a href="{{ route('archive-learners') }}" class="block py-2">Archive learners</a></li>
-            </ul>
-        </div>
 
         <!-- Main Content -->
         <div class="w-3/4 p-6 bg-gray-100">
             <div class="p-4 bg-white shadow rounded">
-                <h2 class="text-xl font-bold">Welcome, {{ $user->name }}</h2>
+                <h2 class="text-xl font-bold">Welcome, {{ Auth::user()->name }}</h2>
 
                 <div class="mt-4">
                     <h3 class="font-bold">Overall Learner RAG</h3>
