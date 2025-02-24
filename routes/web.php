@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApprenticeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -11,9 +12,11 @@ Route::get('/learners', [ApprenticeController::class, 'index'])->name('learners.
 // Selected Apprentice
 Route::get('/learner/{apprentice_id}', [ApprenticeController::class, 'show'])->name('learner.show');
 
-Route::get('/', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
