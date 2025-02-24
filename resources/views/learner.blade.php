@@ -19,7 +19,6 @@
             <p><strong>Start Date:</strong> {{ $apprentice->start_date }}</p>
             <p><strong>Expected Finish Date:</strong> {{ $apprentice->exp_finish_date }}</p>
             <p><strong>Release Day:</strong> {{ $apprentice->release_day }}</p>
-            
 
         </div>
     </div>
