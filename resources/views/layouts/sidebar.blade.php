@@ -2,29 +2,64 @@
     <!-- Primary Navigation Menu -->
     <div class="flex-column justify-start">
         <!-- Navigation Links -->
-        <div class="hidden sm:flex">
-            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-nav-link>
-        </div>
+        @php
+            $user = Auth::user();
 
-        <div class="hidden sm:flex">
-            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard2')">
-                {{ __('Example 1') }}
-            </x-nav-link>
-        </div>
-        
-        <div class="hidden sm:flex">
-            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard2')">
-                {{ __('Example 12') }}
-            </x-nav-link>
-        </div>
+            // Create array of button with details
+            $buttonRoutes = array(
+                'dashboard' => array('name' => 'Dashboard', 'route' => 'dashboard'),
+                'view_duties_rag' => array('name' => 'View duties RAG', 'route' => 'duties'),
+                'view_hours' => array('name' => 'View hours', 'route' => 'hours'),
+                'view_apprenticeship' => array('name' => 'View apprenticeship', 'route' => 'apprenticeship'),
+                'learner_progress' => array('name' => 'Apprentice progress', 'route' => 'learners_progress'),
+                'view_learners' => array('name' => 'Edit apprentice info', 'route' => 'learners.index'),
+                'archive_learners' => array('name' => 'Archive apprentices', 'route' => 'learners_archive'),
+                'view_accounts' => array('name' => 'View accounts', 'route' => 'accounts.index'),
+                'edit_account_details' => array('name' => 'Edit account details', 'route' => 'accounts.show')
+            );
 
-        <div class="hidden sm:flex">
-            <x-nav-link :href="route('learners.index')" :active="request()->routeIs('learners.index')">
-                {{ __('Learners') }}
-            </x-nav-link>
+            // Create selected buttons to display
+            $apprenticeButtons = array(
+                'dashboard',
+                'view_duties_rag',
+                'view_hours',
+                'view_apprenticeship'
+            );
 
-        </div>
+            $tutorButtons = array(
+                'dashboard',
+                'view_learners',
+                'learner_progress',
+                'archive_learners'
+            );
+
+            $adminButtons = array(
+                'dashboard',
+                'view_accounts',
+                'edit_account_details',
+                'view_learners',
+                'archive_learners'
+            );
+
+            // Assign buttons to each role
+            $roleButtons = array(
+                'apprentice' => $apprenticeButtons,
+                'tutor' => $tutorButtons,
+                'admin' => $adminButtons
+            );
+        @endphp
+
+        @foreach ($roleButtons[$user->role] as $button)
+            @php
+                // Check if route exists, otherwise route it back to dashboard
+                $route = Route::has($buttonRoutes[$button]['route']) ? $buttonRoutes[$button]['route'] : 'dashboard';
+            @endphp
+
+            <div class="hidden sm:flex">
+                <x-nav-link :href="route($route)" :active="request()->routeIs($buttonRoutes[$button]['route'])">
+                    {{ __($buttonRoutes[$button]['name']) }}
+                </x-nav-link>
+            </div>
+        @endforeach
     </div>
 </nav>
