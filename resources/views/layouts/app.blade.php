@@ -32,7 +32,7 @@
                         </header>
                     @endisset
 
-                    {{ $slot }}
+                    @yield('content')
                 </div>
             </main>
         </div>
