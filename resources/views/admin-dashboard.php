@@ -4,7 +4,7 @@
     <div class="flex">
         <!-- Sidebar -->
         <div class="w-1/4 bg-gray-200 p-4">
-            <h2 class="text-lg font-bold">GTA logo here</h2>
+            <h2 class="text-lg font-bold">GTA logo**</h2>
             <p class="mt-2 font-semibold">{{ $user->name }}</p> <!-- Dynamic Admin Name -->
             
             <ul class="mt-4">
@@ -34,6 +34,7 @@
                         <li>Group 1: Foundation Skills</li>
                         <li>Group 1: Vehicle trim and panel components</li>
                         <li>Starting and changing systems</li>
+                        <li>*User cant see the detials for ythe apprenticeship</li>
                     </ul>
                 </div>
 
