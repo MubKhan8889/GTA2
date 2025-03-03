@@ -13,7 +13,7 @@
                 'view_apprenticeship' => array('name' => 'View apprenticeship', 'route' => 'apprenticeship'),
                 'learner_progress' => array('name' => 'Apprentice progress', 'route' => 'learners_progress'),
                 'view_learners' => array('name' => 'Edit apprentice info', 'route' => 'learners.index'),
-                'archive_learners' => array('name' => 'Archive apprentices', 'route' => 'learners_archive'),
+                'archive_learners' => array('name' => 'Archive apprentices', 'route' => 'learners.archived'),
                 'view_accounts' => array('name' => 'View accounts', 'route' => 'accounts.index'),
                 'edit_account_details' => array('name' => 'Edit account details', 'route' => 'accounts.show')
             );

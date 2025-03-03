@@ -27,17 +27,26 @@
                                     <td class="border px-4 py-2">{{ $apprentice->cohort }}</td>
                                     <td class="border px-4 py-2">{{ $apprentice->status }}</td>
                                     <td class="border px-4 py-2">
-                                        <!-- View Button (for all users)  -->
-                                        <a href="{{ route('learner.show', $apprentice->apprentice_id) }}" class="text-blue-500 hover:underline">View</a>
-                                        <!-- Edit Button (only for Tutor & Admin) -->
-                                        <a href="{{ route('learners.edit', $apprentice->apprentice_id) }}" class="text-yellow-500 hover:underline mx-2">Edit</a>
-                                        <!-- Delete Button (only for Admin) -->
-                                        <form action="{{ route('learners.destroy', $apprentice->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this apprentice?')" class="text-red-500 hover:underline">Delete</button>
-                                        </form>
-                                    </td>
+                                    <!-- View Button (for all users) -->
+                                    <a href="{{ route('learner.show', $apprentice->apprentice_id) }}" class="text-blue-500 hover:underline">View</a> ||
+
+                                    <!-- Edit Button (only for Tutor & Admin) -->
+                                    <a href="{{ route('learners.edit', $apprentice->apprentice_id) }}" class="text-yellow-500 hover:underline mx-2">Edit</a> ||
+
+                                    <!-- Archive Button (for Tutors, Employees & Admins) -->
+                                    <form action="{{ route('learners.archive', $apprentice->apprentice_id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to archive this apprentice?');">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="text-gray-500 hover:underline">Archive</button>
+                                    </form> ||
+
+                                    <!-- Delete Button (only for Admin) -->
+                                    <form action="{{ route('learners.destroy', $apprentice->apprentice_id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this apprentice?')" class="text-red-500 hover:underline">Delete</button>
+                                    </form>
+                                </td>
                                 </tr>
                             @endforeach
                         </tbody>

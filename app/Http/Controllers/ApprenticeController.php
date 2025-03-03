@@ -90,4 +90,37 @@ public function destroy($id)
 
     return redirect()->route('learners.index')->with('success', 'Apprentice deleted successfully!');
 }
+
+// Archives an apprentice
+public function archive($id)
+{
+    $apprentice = Apprentice::findOrFail($id);
+    $apprentice->archived_at = now();
+    $apprentice->save();
+
+    return redirect()->route('learners.index')->with('success', 'Apprentice archived successfully.');
+}
+
+public function unarchive($id)
+
+{
+    $apprentice = Apprentice::findOrFail($id);
+    $apprentice->archived_at = null;
+    $apprentice->save();
+
+    return redirect()->route('learners.archived')->with('success', 'Apprentice restored successfully.');
+}
+
+
+// Returns archived apprentices
+public function archivedLearners()
+{
+    $apprentices = Apprentice::whereNotNull('archived_at')->with('user')->get();
+    
+    return view('learners.archived', compact('apprentices'));
+}
+
+
+
+
 }

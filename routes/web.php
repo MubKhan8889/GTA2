@@ -17,6 +17,10 @@ Route::get('/learners/{apprentice_id}/edit', [ApprenticeController::class, 'edit
 Route::put('/learners/{apprentice_id}', [ApprenticeController::class, 'update'])->name('learners.update');
 Route::delete('/learners/{id}', [ApprenticeController::class, 'destroy'])->name('learners.destroy');
 
+// Archived Apprentices
+Route::put('/learners/{id}/archive', [ApprenticeController::class, 'archive'])->name('learners.archive');
+Route::get('/archived-learners', [ApprenticeController::class, 'archivedLearners'])->name('learners.archived');
+Route::put('/learners/{id}/unarchive', [ApprenticeController::class, 'unarchive'])->name('learners.unarchive');
 
 
 //Route::get('/', function () {

@@ -27,6 +27,17 @@ class Apprentice extends Model
         'release_day',
     ];
 
+    public function scopeActive($query)
+    {
+        return $query->whereNull('archived_at');
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->whereNotNull('archived_at');
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id', 'id');
