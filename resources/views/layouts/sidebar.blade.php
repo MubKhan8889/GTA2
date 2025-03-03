@@ -8,12 +8,12 @@
             // Create array of button with details
             $buttonRoutes = array(
                 'dashboard' => array('name' => 'Dashboard', 'route' => 'dashboard'),
-                'view_duties_rag' => array('name' => 'View duties RAG', 'route' => 'duties'),
-                'view_hours' => array('name' => 'View hours', 'route' => 'hours'),
-                'view_apprenticeship' => array('name' => 'View apprenticeship', 'route' => 'apprenticeship'),
-                'learner_progress' => array('name' => 'Apprentice progress', 'route' => 'learners_progress'),
+                'apprentice_progress' => array('name' => 'Your Progress', 'route' => 'apprentice-progress'),
+                'your_hours' => array('name' => 'Your Hours', 'route' => 'hours'),
+                'apprenticeship' => array('name' => 'Apprenticeship', 'route' => 'apprenticeship'),
+                'learner_progress' => array('name' => 'Apprentice progress', 'route' => 'learners-progress'),
                 'view_learners' => array('name' => 'Edit apprentice info', 'route' => 'learners.index'),
-                'archive_learners' => array('name' => 'Archive apprentices', 'route' => 'learners_archive'),
+                'archive_learners' => array('name' => 'Archive apprentices', 'route' => 'learners-archive'),
                 'view_accounts' => array('name' => 'View accounts', 'route' => 'accounts.index'),
                 'edit_account_details' => array('name' => 'Edit account details', 'route' => 'accounts.show')
             );
@@ -21,9 +21,9 @@
             // Create selected buttons to display
             $apprenticeButtons = array(
                 'dashboard',
-                'view_duties_rag',
-                'view_hours',
-                'view_apprenticeship'
+                'apprentice_progress',
+                'your_hours',
+                'apprenticeship'
             );
 
             $tutorButtons = array(
