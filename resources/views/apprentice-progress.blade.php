@@ -15,9 +15,21 @@
                     Welcome, {{ Auth::user()->name ?? 'Apprentice' }}
                 </h2>
 
-                <div class="font-semibold mt-6">
-                    <h3>Year 1</h3>
-                </div>
+                <!-- Overall duties progress -->
+                <table class="ml-6 mt-3 bg-gray-200">
+                    <tr>
+                        <th class="px-3 py-1 border-3 border-gray-400">Completed</th>
+                        <th class="px-3 py-1">In progress</th>
+                        <th class="px-3 py-1">Overdue</th>
+                    </tr>
+                    <tr>
+                        <th class="px-3 pt-1"><span class="bg-green-400 inline-block h-4 w-2/3"></span></th>
+                        <th class="px-3 pt-1"><span class="bg-yellow-400 inline-block h-4 w-1/2"></span></th>
+                        <th class="px-3 pt-1"><span class="bg-red-400 inline-block h-4 w-1/3"></span></th>
+                    </tr>
+                </table>
+
+                <!-- Duties info -->
             </div>
         </div>
     </div>

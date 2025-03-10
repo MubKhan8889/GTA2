@@ -6,14 +6,8 @@
     </x-slot>
 
     <div class="flex">
-        <!-- Sidebar -->
-        <div class="w-1/4 bg-gray-200 h-screen p-4">
-            <div class="bg-gray-300 p-4 text-center font-bold">
-                GTA logo here
-            </div>
-
         <!-- Main Content -->
-        <div class="w-3/4 p-6">
+        <div class="p-6">
             <div class="bg-gray-100 p-6 rounded-lg shadow-md">
                 <!-- Display Tutor Name Dynamically -->
                 <h2 class="text-xl font-semibold">
