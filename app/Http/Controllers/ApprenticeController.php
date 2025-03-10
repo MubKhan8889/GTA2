@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Apprenticeship;
 use App\Models\Apprentice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,8 +46,6 @@ public function edit($apprentice_id)
 public function update(Request $request, $apprentice_id)
 {
     $apprentice = Apprentice::where('apprentice_id', $apprentice_id)->firstOrFail();
-
-
     $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email,' . $apprentice->id . ',id',
@@ -102,7 +102,6 @@ public function archive($id)
 }
 
 public function unarchive($id)
-
 {
     $apprentice = Apprentice::findOrFail($id);
     $apprentice->archived_at = null;
@@ -110,7 +109,6 @@ public function unarchive($id)
 
     return redirect()->route('learners.archived')->with('success', 'Apprentice restored successfully.');
 }
-
 
 // Returns archived apprentices
 public function archivedLearners()
@@ -120,11 +118,60 @@ public function archivedLearners()
     return view('learners.archived', compact('apprentices'));
 }
 
-// Register new Apprentice
-
 // Returns register apprentice page
 public function Create(){
     return view('learners.create');
+}
+
+// Register new Apprentice
+public function store(Request $request)
+{
+    // Validate form data
+    $request->validate([
+        'name' => 'required|string',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|confirmed',
+        'uln' => 'required|string',
+        'cohort' => 'required|string',
+        'status' => 'required|string',
+        'start_date' => 'required|date',
+        'exp_finish_date' => 'date',
+        'finish_date' => 'required|date',
+        'release_day' => 'required|string',
+        'apprenticeship_id' => 'required|exists:Apprenticeship,apprenticeship_id',
+    ]);
+    $user = new User([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
+        'role' => 'apprentice',
+    ]);
+
+    $user->save();
+
+    $apprentice = new Apprentice([
+        'uln' => $request->uln,
+        'cohort' => $request->cohort,
+        'status' => $request->status,
+        'start_date' => $request->start_date,
+        'finish_date' => $request->finish_date,
+        'exp_finish_date' => $request->finish_date,
+        'release_day' => $request->release_day,
+        'apprenticeship_id' => $request->apprenticeship_id,
+        'id' => $user->id,
+    ]);
+
+    $apprentice->save();
+
+    return redirect()->route('learners.create')->with('success', 'Apprentice registered successfully!');
+}
+
+
+// Fetch all apprenticeships
+public function fetchApprenticeships()
+{
+    $apprenticeships = Apprenticeship::all();
+    return view('learners.create', compact('apprenticeships'));
 }
 
 }

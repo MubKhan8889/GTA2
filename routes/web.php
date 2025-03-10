@@ -24,6 +24,9 @@ Route::put('/learners/{id}/unarchive', [ApprenticeController::class, 'unarchive'
 
 // Register Apprentice
 Route::get('/learners/create', [ApprenticeController::class, 'create'])->name('learners.create');
+Route::post('/learners', [ApprenticeController::class, 'store'])->name('learners.store');
+Route::get('/learners/create', [ApprenticeController::class, 'fetchApprenticeships'])->name('learners.create');
+
 
 
 //Route::get('/', function () {

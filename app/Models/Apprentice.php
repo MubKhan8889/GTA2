@@ -46,6 +46,6 @@ class Apprentice extends Model
 
     public function apprenticeship()
     {
-        return $this->belongsTo(Apprenticeship::class, 'apprenticeship_id', 'apprenticeship_id');
+        return $this->belongsTo(Apprenticeship::class, 'apprenticeship_id');
     }
 }
