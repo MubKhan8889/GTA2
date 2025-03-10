@@ -120,7 +120,11 @@ public function archivedLearners()
     return view('learners.archived', compact('apprentices'));
 }
 
+// Register new Apprentice
 
-
+// Returns register apprentice page
+public function Create(){
+    return view('learners.create');
+}
 
 }

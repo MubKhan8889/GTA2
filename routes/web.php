@@ -22,6 +22,9 @@ Route::put('/learners/{id}/archive', [ApprenticeController::class, 'archive'])->
 Route::get('/archived-learners', [ApprenticeController::class, 'archivedLearners'])->name('learners.archived');
 Route::put('/learners/{id}/unarchive', [ApprenticeController::class, 'unarchive'])->name('learners.unarchive');
 
+// Register Apprentice
+Route::get('/learners/create', [ApprenticeController::class, 'create'])->name('learners.create');
+
 
 //Route::get('/', function () {
 //    return view('dashboard');

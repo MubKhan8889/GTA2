@@ -9,6 +9,7 @@
                 @if ($apprentices->isEmpty())
                     <p>No apprentices found.</p>
                 @else
+                <a href="{{ route('learners.create') }}" class="text-blue-500 hover:underline">Register Apprentice</a>
                     <table class="min-w-full table-auto border-collapse border border-gray-200">
                         <thead>
                             <tr class="bg-gray-100">
