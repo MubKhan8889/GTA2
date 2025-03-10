@@ -88,8 +88,14 @@ public function destroy($id)
     $apprentice = Apprentice::findOrFail($id);
     $apprentice->delete();
 
-    return redirect()->route('learners.index')->with('success', 'Apprentice deleted successfully!');
+    $user = User::find($apprentice->id);
+    if ($user) {
+        $user->delete();
+    }
+
+    return redirect()->route('learners.index')->with('success', 'Apprentice and User deleted successfully!');
 }
+
 
 // Archives an apprentice
 public function archive($id)
@@ -126,7 +132,6 @@ public function Create(){
 // Register new Apprentice
 public function store(Request $request)
 {
-    // Validate form data
     $request->validate([
         'name' => 'required|string',
         'email' => 'required|email|unique:users,email',
