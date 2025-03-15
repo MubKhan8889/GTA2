@@ -30,7 +30,8 @@
                 'dashboard',
                 'view_learners',
                 'learner_progress',
-                'archive_learners'
+                'archive_learners',
+                'apprenticeship'
             );
 
             $adminButtons = array(
@@ -41,11 +42,19 @@
                 'archive_learners'
             );
 
+            $employerButtons = array(
+                'dashboard',
+                'view_learners',
+                'learner_progress',
+                'apprenticeship'
+            );
+
             // Assign buttons to each role
             $roleButtons = array(
                 'apprentice' => $apprenticeButtons,
                 'tutor' => $tutorButtons,
-                'admin' => $adminButtons
+                'admin' => $adminButtons,
+                'employer' => $employerButtons,
             );
         @endphp
 

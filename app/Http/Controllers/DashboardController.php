@@ -17,7 +17,8 @@ class DashboardController extends Controller
         $dashboardArray = array(
             'apprentice' => 'apprentice-dashboard',
             'tutor' => 'tutor-dashboard',
-            'admin' => 'admin-dashboard'
+            'admin' => 'admin-dashboard',
+            'employer' => 'employer-dashboard',
         );
 
         return view($dashboardArray[$role]);
