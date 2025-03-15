@@ -9,7 +9,7 @@
             $buttonRoutes = array(
                 'dashboard' => array('name' => 'Dashboard', 'route' => 'dashboard'),
                 'apprentice_progress' => array('name' => 'Your Progress', 'route' => 'apprentice-progress'),
-                'your_hours' => array('name' => 'Your Hours', 'route' => 'hours'),
+                'your_hours' => array('name' => 'Your Hours', 'route' => 'apprentice-hours'),
                 'apprenticeship' => array('name' => 'Apprenticeship', 'route' => 'apprenticeship'),
                 'learner_progress' => array('name' => 'Apprentice progress', 'route' => 'learners-progress'),
                 'view_learners' => array('name' => 'Edit apprentice info', 'route' => 'learners.index'),

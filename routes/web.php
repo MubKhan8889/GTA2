@@ -14,9 +14,14 @@ Route::get('/learner/{apprentice_id}', [ApprenticeController::class, 'show'])->n
 
 // Webpages
 Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/progress', function (Request $request){
-    return view('apprentice-progress');
+return view('apprentice-progress');
 })->middleware(['auth', 'verified'])->name('apprentice-progress');
+
+Route::get('/hours', function (Request $request){
+    return view('apprentice-hours');
+})->middleware(['auth', 'verified'])->name('apprentice-hours');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
