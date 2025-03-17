@@ -29,9 +29,9 @@ Route::get('/learners/create', [ApprenticeController::class, 'fetchApprenticeshi
 
 
 
-//Route::get('/', function () {
+// Route::get('/', function () {
 //    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('apprentices', ApprenticeController::class);
 Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
