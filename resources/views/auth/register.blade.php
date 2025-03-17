@@ -53,6 +53,7 @@
                 <option value="apprentice" selected>Apprentice</option>
                 <option value="tutor">Tutor</option>
                 <option value="admin">Admin</option>
+                <option value="employer">Employer</option>
             </x-dropdown-list>
         </div>
 

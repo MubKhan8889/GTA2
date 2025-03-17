@@ -29,12 +29,17 @@ Route::get('/learners/create', [ApprenticeController::class, 'fetchApprenticeshi
 
 
 
-//Route::get('/', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
-
+// Webpages
 Route::resource('apprentices', ApprenticeController::class);
 Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/progress', function (Request $request){
+return view('apprentice-progress');
+})->middleware(['auth', 'verified'])->name('apprentice-progress');
+
+Route::get('/hours', function (Request $request){
+    return view('apprentice-hours');
+})->middleware(['auth', 'verified'])->name('apprentice-hours');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
