@@ -29,7 +29,10 @@ Route::get('/learners/create', [ApprenticeController::class, 'fetchApprenticeshi
 
 
 
-// Webpages
+//Route::get('/', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::resource('apprentices', ApprenticeController::class);
 Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 
