@@ -27,6 +27,17 @@ class Apprentice extends Model
         'release_day',
     ];
 
+    public function scopeActive($query)
+    {
+        return $query->whereNull('archived_at');
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->whereNotNull('archived_at');
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id', 'id');
@@ -35,6 +46,12 @@ class Apprentice extends Model
 
     public function apprenticeship()
     {
-        return $this->belongsTo(Apprenticeship::class, 'apprenticeship_id', 'apprenticeship_id');
+        return $this->belongsTo(Apprenticeship::class, 'apprenticeship_id');
+    }
+
+    public function duties()
+    {   
+        return $this->belongsToMany(Duty::class, 'apprentice_duties', 'apprentice_id', 'duty_id')
+                ->withPivot('completed_date', 'due_date');
     }
 }

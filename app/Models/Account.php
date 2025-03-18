@@ -11,14 +11,12 @@ class Account extends Model
     use HasFactory;
 
     protected $table = 'Account';
-    protected $primaryKey = 'account_id';
+    protected $primaryKey = 'id';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'first_name',
-        'middle_name',
-        'surname',
+        'name',
         'email',
         'username',
         'password',
@@ -27,7 +25,7 @@ class Account extends Model
 
         public function apprentices()
     {
-        return $this->hasOne(Apprentice::class, 'account_id', 'account_id');
+        return $this->hasOne(Apprentice::class, 'id', 'id');
     }
 
 }
