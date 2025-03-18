@@ -37,19 +37,19 @@
                 <label for="name" class="block text-gray-700 font-semibold">Name:</label>
                 <input type="text" name="name" value="{{ optional($apprentice->user)->name }}"
                     class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
-                    @if(!$isAdmin) disabled class="bg-gray-200 cursor-not-allowed" @endif />
+                    @if(!$isAdmin) readonly class="bg-gray-200" @endif />
             </div>
             <div>
                 <label for="email" class="block text-gray-700 font-semibold">Email:</label>
                 <input type="email" name="email" value="{{ optional($apprentice->user)->email }}"
                     class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
-                    @if(!$isAdmin) disabled class="bg-gray-200 cursor-not-allowed" @endif />
+                    @if(!$isAdmin) readonly class="bg-gray-200" @endif />
             </div>
             <div>
                 <label for="uln" class="block text-gray-700 font-semibold">ULN:</label>
                 <input type="text" name="uln" value="{{ $apprentice->uln }}"
                     class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"
-                    @if(!$isAdmin) disabled class="bg-gray-200 cursor-not-allowed" @endif />
+                    @if(!$isAdmin) readonly class="bg-gray-200" @endif />
             </div>
             <div>
                 <label for="cohort" class="block text-gray-700 font-semibold">Cohort:</label>
@@ -91,8 +91,64 @@
                     <option value="Friday" {{ $apprentice->release_day == 'Friday' ? 'selected' : '' }}>Friday</option>
                 </select>
             </div>
+            <div class="mt-6">
+                <h3 class="text-xl font-semibold text-gray-700">Apprentice Progress</h3>
+                <table class="w-full table-auto mt-4">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">Progress Type</th>
+                            <th class="px-4 py-2">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="px-4 py-2">Completed</td>
+                            <td class="px-4 py-2">{{ number_format($progress['completed'], 2) }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2">In Progress</td>
+                            <td class="px-4 py-2">{{ number_format($progress['inProgress'], 2) }}%</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2">Overdue</td>
+                            <td class="px-4 py-2">{{ number_format($progress['overdue'], 2) }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>         
+            <h3 class="mt-6 text-xl font-semibold text-gray-700">Assigned Duties</h3>
+            @if($apprentice->duties->isEmpty())
+                <p>No duties assigned yet.</p>
+            @else
+                <table class="w-full table-auto mt-4">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">Duty Name</th>
+                            <th class="px-4 py-2">Completed Date</th>
+                            <th class="px-4 py-2">Due Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($apprentice->duties as $duty)
+                            <tr>
+                                <td class="px-4 py-2">{{ $duty->name }}</td>
+                                <td class="px-4 py-2">
+                                    <input type="date" name="duties[{{ $duty->pivot->duty_id }}][completed_date]" 
+                                        value="{{ $duty->pivot->completed_date ?? '' }}" 
+                                        class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300" />
+                                </td>
+                                <td class="px-4 py-2">
+                                    <input type="date" name="duties[{{ $duty->pivot->duty_id }}][due_date]" 
+                                        value="{{ $duty->pivot->due_date ?? '' }}" 
+                                        class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300" />
+                                </td>
+                            </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @endif
             <button id="update-button" type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 font-bold py-2 px-4 rounded-lg">
+                class="w-full font-bold py-2 px-4 rounded-lg">
                 Update
             </button>
 

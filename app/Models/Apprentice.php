@@ -48,4 +48,10 @@ class Apprentice extends Model
     {
         return $this->belongsTo(Apprenticeship::class, 'apprenticeship_id');
     }
+
+    public function duties()
+    {   
+        return $this->belongsToMany(Duty::class, 'apprentice_duties', 'apprentice_id', 'duty_id')
+                ->withPivot('completed_date', 'due_date');
+    }
 }

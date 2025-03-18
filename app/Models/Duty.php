@@ -9,39 +9,34 @@ class Duty extends Model
 {
     use HasFactory;
 
-    /**
-     * Table associated with model
-     * 
-     * @var string
-     */
-    protected $table = 'DutyRAG';
+    // For retrieving apprentices associated with each duty
+    public function apprentices()
+    {
+        return $this->hasMany(ApprenticeDuty::class, 'duty_id', 'id');
+    }
 
-    /**
-     * Primary key of table
-     * 
-     * @var string
-     */
-    protected $primaryKey = 'duty_rag_id';
+    protected $table = 'Duty';
 
-    /**
-     * Should the model be timestamped
-     * 
-     * @var bool
-     */
+    protected $primaryKey = 'duty_id';
+
     public $timestamps = false;
 
     protected $fillable = [
         'duty_id',
-        'apprentice_id',
-        'finish_date'
+        'apprenticeship_id',
+        'name',
+        'duration'
     ];
 
-    protected function casts(): array
+    protected $casts = [
+        'duty_id' => 'integer', 
+        'apprenticeship_id' => 'integer',
+        'name' => 'string',
+        'duration' => 'integer',
+    ];
+
+    public function apprentice()
     {
-        return [
-            'duty_id' => 'number',
-            'apprentice_id' => 'number',
-            'finish_date' => 'date',
-        ];
+        return $this->hasMany(ApprenticeDuty::class, 'duty_id', 'duty_id');
     }
 }
