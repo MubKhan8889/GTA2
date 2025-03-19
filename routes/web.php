@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TutorController;
 use App\Http\Controllers\ApprenticeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImageController;
@@ -27,11 +28,13 @@ Route::get('/learners/create', [ApprenticeController::class, 'create'])->name('l
 Route::post('/learners', [ApprenticeController::class, 'store'])->name('learners.store');
 Route::get('/learners/create', [ApprenticeController::class, 'fetchApprenticeships'])->name('learners.create');
 
-
-
-// Route::get('/', function () {
-//    return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/tutors', [TutorController::class, 'index'])->name('tutors.index');
+Route::get('/tutors/create', [TutorController::class, 'create'])->name('tutors.create');
+Route::post('/tutors', [TutorController::class, 'store'])->name('tutors.store');
+Route::get('/tutors/{tutor}', [TutorController::class, 'show'])->name('tutors.show'); 
+Route::get('/tutors/{tutor}/edit', [TutorController::class, 'edit'])->name('tutors.edit');
+Route::put('/tutors/{tutor}', [TutorController::class, 'update'])->name('tutors.update');  
+Route::delete('/tutors/{tutor}', [TutorController::class, 'destroy'])->name('tutors.destroy'); 
 
 Route::resource('apprentices', ApprenticeController::class);
 Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');

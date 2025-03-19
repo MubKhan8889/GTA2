@@ -3,7 +3,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <h3 class="text-lg font-semibold">All Apprentices</h3>
+            <h1 class="text-2xl font-bold text-gray-700 mb-4">Apprentice Management</h1>
 
                 @if ($apprentices->isEmpty())
                     <p>No apprentices found.</p>
