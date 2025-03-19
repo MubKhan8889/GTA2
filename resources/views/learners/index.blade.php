@@ -9,10 +9,19 @@
                     <p>No apprentices found.</p>
                 @else
                 <a href="{{ route('learners.create') }}" class="text-blue-500 hover:underline">Register Apprentice</a>
+                <div class="mb-4">
+                    <a href="{{ route('learners.index', ['sort_by' => 'name', 'sort_direction' => $sortDirection == 'asc' ? 'desc' : 'asc']) }}" class="text-blue-500 hover:underline">
+                        Sort by Name
+                    </a> |
+                    <a href="{{ route('learners.index', ['sort_by' => 'cohort', 'sort_direction' => $sortDirection == 'asc' ? 'desc' : 'asc']) }}" class="text-blue-500 hover:underline">
+                        Sort by Cohort
+                    </a> |
+                    <a href="{{ route('learners.index', ['sort_by' => 'status', 'sort_direction' => $sortDirection == 'asc' ? 'desc' : 'asc']) }}" class="text-blue-500 hover:underline">
+                        Sort by Status
+                        </a>
                     <table class="min-w-full table-auto border-collapse border border-gray-200">
                         <thead>
                             <tr class="bg-gray-100">
-                                <th class="border px-4 py-2">Apprentice ID</th>
                                 <th class="border px-4 py-2">Name</th>
                                 <th class="border px-4 py-2">Cohort</th>
                                 <th class="border px-4 py-2">Status</th>
@@ -22,7 +31,6 @@
                         <tbody>
                             @foreach($apprentices as $apprentice)
                                 <tr>
-                                    <td class="border px-4 py-2">{{ $apprentice->apprentice_id }}</td>
                                     <td class="border px-4 py-2">{{ $apprentice->user->name ?? 'No name available' }}</td>
                                     <td class="border px-4 py-2">{{ $apprentice->cohort }}</td>
                                     <td class="border px-4 py-2">{{ $apprentice->status }}</td>

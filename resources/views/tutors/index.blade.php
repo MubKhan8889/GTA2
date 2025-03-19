@@ -6,9 +6,12 @@
         <h1 class="text-2xl font-bold text-gray-700 mb-4">Tutor Management</h1>
 
         @if(session('success'))
-            <div class="bg-green-500 text-white p-2 mb-4">
+            <div id="success-message" style="color: green;">
                 {{ session('success') }}
             </div>
+            <script>
+                setTimeout(() => { location.reload(); }, 2000);
+            </script>
         @endif
 
         <a href="{{ route('tutors.create') }}" class="text-blue-500 hover:underline">Register Tutor</a>
@@ -16,7 +19,16 @@
         <table class="w-full mt-4 border-collapse border border-gray-300">
             <thead>
                 <tr class="bg-gray-200">
-                    <th class="border p-2">Name</th>
+                    <th class="border p-2">
+                        <a href="{{ route('tutors.index', ['sort' => $sortOrder === 'asc' ? 'desc' : 'asc']) }}" class="text-blue-500 hover:underline">
+                            Name 
+                            @if($sortOrder === 'asc')
+                                ▲
+                            @else
+                                ▼
+                            @endif
+                        </a>
+                    </th>
                     <th class="border p-2">Email</th>
                     <th class="border p-2">Actions</th>
                 </tr>

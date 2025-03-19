@@ -7,7 +7,7 @@
             <h1 class="text-2xl font-bold text-gray-700 mb-6">Register Tutor</h1>
 
             @if(session('success'))
-                <div id="success-message" class="bg-green-500 text-white p-3 mb-4">
+                <div id="success-message" style="color: green;">
                     {{ session('success') }}
                 </div>
                 <script>
@@ -19,7 +19,7 @@
                 <div class="alert alert-danger p-3 bg-red-500 text-white rounded mb-4">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li style="color: red;">{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>

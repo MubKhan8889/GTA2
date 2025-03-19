@@ -6,7 +6,7 @@
         <h1 class="text-2xl font-bold text-gray-700 mb-4">Edit Apprentice Information</h1>
 
         @if(session('success'))
-            <div id="success-message" style="background-color: green; color: white; padding: 10px; margin-bottom: 10px;">
+        <div id="success-message" style="color: green;">
                 {{ session('success') }}
             </div>
             <script>
@@ -20,7 +20,7 @@
             <div class="alert alert-danger">
                 <ul>
                     @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
+                        <li style="color: red;">{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>

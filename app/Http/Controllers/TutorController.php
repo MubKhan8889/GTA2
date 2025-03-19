@@ -6,13 +6,21 @@ use App\Models\Tutor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class TutorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tutors = Tutor::with('user')->get();
-        return view('tutors.index', compact('tutors'));
+        $sortOrder = $request->query('sort', 'asc'); 
+
+        $tutors = Tutor::with('user')
+        ->join('users', 'Tutor.id', '=', 'users.id')
+        ->orderBy('users.name', $sortOrder)
+        ->select('Tutor.*')
+        ->get();
+
+        return view('tutors.index', compact('tutors', 'sortOrder'));
     }
 
     public function create()
@@ -62,9 +70,26 @@ class TutorController extends Controller
 
     public function destroy(Tutor $tutor)
     {
-        $tutor->user->delete();
-        $tutor->delete();
-        
-        return redirect()->route('tutors.index')->with('success', 'Tutor deleted successfully!');
+        //  Begin database transaction
+        DB::beginTransaction();
+
+        try {
+            if (!$tutor) {
+                \Log::info('Tutor not found.');
+                return redirect()->route('tutors.index')->with('error', 'Tutor not found!');
+            }
+            $tutor->delete();
+            $tutor->user->delete();
+
+            DB::commit();
+
+            return redirect()->route('tutors.index')->with('success', 'Tutor deleted successfully!');
+        } catch (\Exception $e) {
+            // Rollback if any errors
+            DB::rollBack();
+
+            return redirect()->route('tutors.index')->with('error', 'An error occurred while deleting the tutor and user.');
+        }
     }
+
 }

@@ -5,19 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Apprenticeship;
 use App\Models\Apprentice;
+use App\Models\ApprenticeDuty;
 use App\Models\Duty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ApprenticeController extends Controller
 {
     // Displays all apprentices
-    public function index()
-{
-    $apprentices = Apprentice::with('user', 'apprenticeship')->get(); 
-
-    return view('learners.index', compact('apprentices'));
-}
+    public function index(Request $request)
+    {
+        $sortBy = $request->input('sort_by', 'name'); 
+        $sortDirection = $request->input('sort_direction', 'asc');
+    
+        if (!in_array($sortDirection, ['asc', 'desc'])) {
+            $sortDirection = 'asc';
+        }
+    
+        $apprentices = Apprentice::with('user', 'apprenticeship')
+                            ->leftJoin('users', 'users.id', '=', 'apprentice.id') 
+                            ->orderBy($sortBy === 'name' ? 'users.name' : $sortBy, $sortDirection)
+                            ->get();
+    
+                            return view('learners.index', compact('apprentices', 'sortBy', 'sortDirection'));
+    }
 
 // Display details of a specific apprentice
 public function show($apprentice_id)
@@ -130,18 +142,33 @@ public function update(Request $request, $apprentice_id)
                      ->with('progress', $progress);
 }
 
-// Deletes the selected apprentice
+// Deletes Apprentice and corresponding user record
 public function destroy($id)
 {
-    $apprentice = Apprentice::findOrFail($id);
-    $apprentice->delete();
+    DB::beginTransaction();
 
-    $user = User::find($apprentice->id);
-    if ($user) {
-        $user->delete();
+    try {
+        $apprentice = Apprentice::findOrFail($id);
+
+        if ($apprentice->id !== null) {
+            $user = User::find($apprentice->id);
+
+            if ($user) {
+                $user->delete();
+            }
+        }
+        $dutiesDeleted = ApprenticeDuty::where('apprentice_id', $apprentice->apprentice_id)->delete();
+
+        $apprentice->delete();
+        DB::commit();
+
+        return redirect()->route('learners.index')->with('success', 'Apprentice and related records deleted successfully!');
+    } catch (\Exception $e) {
+        // Rollback if any errors
+        DB::rollBack();
+
+        return redirect()->route('learners.index')->with('error', 'An error occurred while deleting the apprentice and related records.');
     }
-
-    return redirect()->route('learners.index')->with('success', 'Apprentice and User deleted successfully!');
 }
 
 
