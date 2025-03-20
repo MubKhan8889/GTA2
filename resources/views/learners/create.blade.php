@@ -7,8 +7,8 @@
             <h1 class="text-2xl font-bold text-gray-700 mb-6">Register Apprentice</h1>
 
             @if(session('success'))
-                <div id="success-message" class="bg-green-500 text-Green p-3 mb-4">
-                    {{ session('success') }}
+            <div id="success-message" style="color: green;">
+            {{ session('success') }}
                 </div>
                 <script>
                     setTimeout(() => { location.reload(); }, 2000);
@@ -19,7 +19,7 @@
                 <div class="alert alert-danger p-3 bg-red-500 text-white rounded mb-4">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li style="color: red;">{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -61,8 +61,8 @@
                     <div>
                         <label for="status" class="block text-sm font-medium text-gray-700">Status:</label>
                         <select name="status" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
                         </select>
                     </div>
 
