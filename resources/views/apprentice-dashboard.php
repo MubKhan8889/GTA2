@@ -1,4 +1,5 @@
-<x-app-layout>
+@extends('layouts.app')
+@section('content')
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard for Apprentice') }}
@@ -6,27 +7,6 @@
     </x-slot>
 
     <div class="flex">
-        <!-- Sidebar -->
-        <div class="w-1/4 bg-gray-200 h-screen p-4">
-            <div class="bg-gray-300 p-4 text-center font-bold">
-                GTA logo here
-            </div>
-            <ul class="mt-4 space-y-2">
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('apprentice-dashboard') }}">Dashboard</a>
-                </li>
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('view-duties-rag') }}">View duties RAG</a>
-                </li>
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('view-hours') }}">View hours</a>
-                </li>
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('view-apprenticeship') }}">View apprenticeship</a>
-                </li>
-            </ul>
-        </div>
-
         <!-- Main Content -->
         <div class="w-3/4 p-6">
             <div class="bg-gray-100 p-6 rounded-lg shadow-md">
@@ -45,23 +25,41 @@
                     </div>
                 </div>
 
-                <!-- Progress & Overdue Duties -->
-                <div class="mt-4">
-                    <h3 class="font-semibold">In Progress Duties</h3>
-                    <ul class="list-disc pl-6">
-                        <li>Group 1: Foundation Skills</li>
-                        <li>Group 1: Vehicle trim and panel components</li>
-                        <li>Starting and changing systems</li>
-                    </ul>
-                </div>
+                <!-- Interactive Skills Section -->
+                <div class="mt-4" x-data="{ activeTab: 'progress' }">
+                    <h3 class="font-semibold">Skills Progress</h3>
+                    <div class="flex space-x-4">
+                        <button @click="activeTab = 'progress'" 
+                                :class="{'bg-blue-500 text-white': activeTab === 'progress', 'bg-gray-200': activeTab !== 'progress'}" 
+                                class="px-4 py-2 rounded">
+                            In Progress
+                        </button>
+                        <button @click="activeTab = 'overdue'" 
+                                :class="{'bg-blue-500 text-white': activeTab === 'overdue', 'bg-gray-200': activeTab !== 'overdue'}" 
+                                class="px-4 py-2 rounded">
+                            Overdue
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <!-- In Progress Duties -->
+                        <ul x-show="activeTab === 'progress'" class="list-disc pl-6">
+                            @foreach(Auth::user()->apprentice->duties as $duty)
+                                @if($duty->pivot->completed_date === null && $duty->pivot->due_date >= now())
+                                    <li>{{ $duty->name }} (Due: {{ $duty->pivot->due_date->format('F j, Y') }})</li>
+                                @endif
+                            @endforeach
+                        </ul>
 
-                <div class="mt-4">
-                    <h3 class="font-semibold">Overdue Duties</h3>
-                    <ul class="list-disc pl-6">
-                        <li>Group 5: Steering and Suspension</li>
-                        <li>Group 6: Transmission and Driveline</li>
-                        <li>Gateway 2</li>
-                    </ul>
+                        <!-- Overdue Duties -->
+                        <ul x-show="activeTab === 'overdue'" class="list-disc pl-6">
+                            @foreach(Auth::user()->apprentice->duties as $duty)
+                                @if($duty->pivot->completed_date === null && $duty->pivot->due_date < now())
+                                    <li>{{ $duty->name }} (Overdue since: {{ $duty->pivot->due_date->format('F j, Y') }})</li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Hours Information -->
@@ -91,4 +89,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection
