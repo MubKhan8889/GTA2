@@ -4,16 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Apprentice extends Model
 {
     use HasFactory;
 
-    protected $table = 'Apprentice';
-
-    protected $primaryKey = 'apprentice_id';
-
-    public $timestamps = false;
+    
+    protected $table = 'Apprentice'; 
+    protected $primaryKey = 'apprentice_id'; 
+    public $timestamps = false; 
 
     protected $fillable = [
         'id', // User ID (Foreign Key)
@@ -27,14 +28,28 @@ class Apprentice extends Model
         'release_day',
     ];
 
-    public function user()
+    /**
+     * Relationship: Apprentice belongs to a User
+     */
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id', 'id');
+        return $this->belongsTo(User::class, 'id', 'id'); // Apprentice.id → User.id
     }
 
-
-    public function apprenticeship()
+    /**
+     * Relationship: Apprentice belongs to an Apprenticeship
+     */
+    public function apprenticeship(): BelongsTo
     {
-        return $this->belongsTo(Apprenticeship::class, 'apprenticeship_id', 'apprenticeship_id');
+        return $this->belongsTo(Apprenticeship::class, 'apprenticeship_id');
+    }
+
+    /**
+     * Relationship: Apprentice has many Duties (via pivot table)
+     */
+    public function duties(): BelongsToMany
+    {
+        return $this->belongsToMany(Duty::class, 'Apprentice_Duties', 'apprentice_id', 'duty_id')
+                    ->withPivot('completed_date', 'due_date');
     }
 }
