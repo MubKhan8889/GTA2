@@ -34,14 +34,30 @@ class ApprenticeController extends Controller
 // Display details of a specific apprentice
 public function show($apprentice_id)
 {
-    $apprentice = Apprentice::with('user', 'apprenticeship', 'duties.duty')
-                            ->where('apprentice_id', $apprentice_id)->first();
+    $apprentice = Apprentice::with('user', 'apprenticeship', 'duties') 
+                            ->where('apprentice_id', $apprentice_id)
+                            ->first();
 
     if (!$apprentice) {
         return redirect('/learners')->with('error', 'Apprentice not found');
     }
 
-    return view('learner', compact('apprentice'));
+    $totalDuties = $apprentice->duties->count();
+    $completedCount = $apprentice->duties->whereNotNull('pivot.completed_date')->count();
+    $inProgressCount = $apprentice->duties->whereNull('pivot.completed_date')
+                                         ->where('pivot.due_date', '>=', now())
+                                         ->count();
+    $overdueCount = $apprentice->duties->whereNull('pivot.completed_date')
+                                       ->where('pivot.due_date', '<', now())
+                                       ->count();
+
+    $progress = [
+        'completed' => $totalDuties > 0 ? round(($completedCount / $totalDuties) * 100, 2) : 0,
+        'inProgress' => $totalDuties > 0 ? round(($inProgressCount / $totalDuties) * 100, 2) : 0,
+        'overdue' => $totalDuties > 0 ? round(($overdueCount / $totalDuties) * 100, 2) : 0,
+    ];
+
+    return view('learner', compact('apprentice', 'progress'));
 }
 
 // Directs to apprentice edit page, with calculated percentages to display in progress table
