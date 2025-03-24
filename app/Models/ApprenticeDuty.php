@@ -45,4 +45,5 @@ class ApprenticeDuty extends Model
 
         return 'In Progress';
     }
+
 }
