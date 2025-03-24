@@ -32,7 +32,7 @@
                         <th class="text-left px-3 py-0.5">GTA Specialist Training</th>
                         <th class="text-left px-3 py-0.5">VLE Training</th>
                         <th class="text-left px-3 py-0.5">Total Hours</th>
-                        <th class="text-left px-3 py-0.5">Cumulative Hours</th>
+                        <th class="text-left px-3 py-0.5">Cumulaive Hours</th>
                     </tr>
                     <tr>
                         <th class="text-left font-normal px-3 py-0.5">1</th>
