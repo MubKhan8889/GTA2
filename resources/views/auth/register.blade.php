@@ -1,6 +1,11 @@
 @extends('layouts.auth')
 
 @section('content')
+<!-- Logo -->
+<div class="d-flex justify-content-center align-items-center mb-4" style="height: 200px;">
+    <img src="{{ asset('assets/images/logo1.png') }}" alt="Logo" class="img-fluid" style="max-height: 100px;">
+</div>
+
     <h4 class="fw-bold">Create an Account</h4>
     <p class="mb-0">Please fill in your details to register</p>
 
