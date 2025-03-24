@@ -16,6 +16,12 @@
                     Welcome, {{ Auth::user()->name ?? 'Apprentice' }}
                 </h2>
 
+                @if($apprenticeDuties->isEmpty())
+                    <p>brah</p>
+                @else
+                    <b>bruh</b>
+                @endif
+
                 <!-- Overall duties progress -->
                 <h3 class="font-bold mt-8 mb-2">Duties RAG</h3>
                 <table class="bg-gray-200">

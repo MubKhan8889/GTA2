@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DutyController;
 use App\Http\Controllers\TutorController;
 use App\Http\Controllers\ApprenticeController;
 use App\Http\Controllers\DashboardController;
@@ -39,9 +40,7 @@ Route::delete('/tutors/{tutor}', [TutorController::class, 'destroy'])->name('tut
 Route::resource('apprentices', ApprenticeController::class);
 Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/progress', function (Request $request){
-return view('apprentice-progress');
-})->middleware(['auth', 'verified'])->name('apprentice-progress');
+Route::get('/progress', [DutyController::class, 'index'])->middleware(['auth', 'verified'])->name('apprentice-progress');
 
 Route::get('/hours', function (Request $request){
     return view('apprentice-hours');
