@@ -16,12 +16,6 @@
                     Welcome, {{ Auth::user()->name ?? 'Apprentice' }}
                 </h2>
 
-                @if($apprenticeDuties->isEmpty())
-                    <p>brah</p>
-                @else
-                    <b>bruh</b>
-                @endif
-
                 <!-- Overall duties progress -->
                 <h3 class="font-bold mt-8 mb-2">Duties RAG</h3>
                 <table class="bg-gray-200">
@@ -30,10 +24,21 @@
                         <th class="px-3 py-1 border-2 border-gray-400">In progress</th>
                         <th class="px-3 py-1 border-2 border-gray-400">Overdue</th>
                     </tr>
+
+                    @php
+                        $redWidth = round(($overallRAG['red'] / $overallRAG['total']) * 100);
+                        $yellowWidth = round(($overallRAG['yellow'] / $overallRAG['total']) * 100);
+                        $greenWidth = round(($overallRAG['green'] / $overallRAG['total']) * 100);
+
+                        $redWidthSet = 'w-[' . $redWidth . '%]';
+                        $yellowWidthSet = 'w-[' . $yellowWidth . '%]';
+                        $greenWidthSet = 'w-[' . $greenWidth . '%]';
+                    @endphp
+
                     <tr>
-                        <th class="p-0 border-2 border-gray-400"><span class="bg-green-400 inline-block h-4 w-2/3 mr-[100%]"></span></th>
-                        <th class="p-0 border-2 border-gray-400"><span class="bg-yellow-300 inline-block h-4 w-1/2 mr-[100%]"></span></th>
-                        <th class="p-0 border-2 border-gray-400"><span class="bg-red-400 inline-block h-4 w-1/3 mr-[100%]"></span></th>
+                        <th class="p-0 border-2 border-gray-400"><span class="bg-green-400 inline-block h-5 {{ $redWidthSet }} mr-[100%]"></span></th>
+                        <th class="p-0 border-2 border-gray-400"><span class="bg-yellow-300 inline-block h-5 {{ $yellowWidthSet }} mr-[100%]"></span></th>
+                        <th class="p-0 border-2 border-gray-400"><span class="bg-red-400 inline-block h-5 {{ $greenWidthSet }} mr-[100%]"></span></th>
                     </tr>
                 </table>
 
@@ -51,15 +56,28 @@
                         @if(!$apprenticeDuties->isEmpty())
                             @foreach($apprenticeDuties as $duty)
                                 @php
-                                    if     ($duty->completed_date == null) { $colourIn = 'bg-yellow-400'; }
-                                    elseif (new DateTime('Today') > strtotime($duty->due_date)) { $colourIn = 'bg-red-400'; }
-                                    elseif ($duty->completed_date != null) { $colourIn = 'bg-green-400'; }
+                                    $dt = new DateTime();
+                                    if (strtotime($dt->format('Y-m-d')) > strtotime($duty->due_date))
+                                    {
+                                        $completedResolve = "Overdue";
+                                        $colourIn = 'bg-red-400';
+                                    }
+                                    elseif ($duty->completed_date == null)
+                                    {
+                                        $completedResolve = "Not due";
+                                        $colourIn = 'bg-yellow-400';
+                                    }
+                                    elseif ($duty->completed_date != null)
+                                    {
+                                        $completedResolve = date('Y-m-d', strtotime($duty->completed_date));
+                                        $colourIn = 'bg-green-400';
+                                    }
                                 @endphp
 
                                 <tr>
                                     <th class="text-left font-normal px-3 py-0.5">{{ $duty->name }}</th>
-                                    <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400 {{ $colourIn }}">{{ $duty->completed_date }}</th>
-                                    <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400">{{ $duty->due_date }}</th>
+                                    <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400 {{ $colourIn }}">{{ $completedResolve }}</th>
+                                    <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400">{{ date('Y-m-d', strtotime($duty->due_date)) }}</th>
                                 </tr>
                             @endforeach
                         @endif

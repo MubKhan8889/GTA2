@@ -23,8 +23,8 @@ class ApprenticeDuty extends Model
     protected function casts(): array
     {
         return [
-            'completed_date' => 'date',
-            'due_date' => 'date',
+            'completed_date' => 'date:Y-m-d',
+            'due_date' => 'date:Y-m-d',
         ];
     }
 

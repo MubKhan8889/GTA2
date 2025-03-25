@@ -33,9 +33,9 @@ class DutyCommand extends Command
     public function handle()
     {
         $countResolve = $this->argument('amount') ?? 1;
-        $dt = new DateTime("now");
+        $dt = new DateTime();
         $deadline = $dt->add(new DateInterval('P1Y'))->format('Y-m-d');
-
+        
         for ($x = 0; $x <= $countResolve; $x++)
         {
             $duty = Duty::create([
