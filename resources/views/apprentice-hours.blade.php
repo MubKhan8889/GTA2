@@ -24,38 +24,40 @@
                 <!-- Hours Table -->
                 <table class="h-min mr-6 mt-6">
                     <tr>
-                        <th class="text-left px-3 py-0.5">Month</th>
-                        <th class="text-left px-3 py-0.5">Date</th>
-                        <th class="text-left px-3 py-0.5">Expected Hours</th>
-                        <th class="text-left px-3 py-0.5">Training Center Hours</th>
-                        <th class="text-left px-3 py-0.5">Employer Training Records</th>
-                        <th class="text-left px-3 py-0.5">GTA Specialist Training</th>
-                        <th class="text-left px-3 py-0.5">VLE Training</th>
-                        <th class="text-left px-3 py-0.5">Total Hours</th>
-                        <th class="text-left px-3 py-0.5">Cumulaive Hours</th>
+                        <th class="text-left px-3 py-0.5 border-2 border-gray-400">Month</th>
+                        <th class="text-left px-3 py-0.5 border-2 border-gray-400">Date</th>
+                        <!--<th class="text-left px-3 py-0.5 border-2 border-gray-400">Expected Hours</th>-->
+                        <th class="text-left px-3 py-0.5 border-2 border-gray-400">Training Center Hours</th>
+                        <th class="text-left px-3 py-0.5 border-2 border-gray-400">Employer Training Records</th>
+                        <th class="text-left px-3 py-0.5 border-2 border-gray-400">GTA Specialist Training</th>
+                        <th class="text-left px-3 py-0.5 border-2 border-gray-400">VLE Training</th>
+                        <th class="text-left px-3 py-0.5 border-2 border-gray-400">Total Hours</th>
+                        <th class="text-left px-3 py-0.5 border-2 border-gray-400">Cumulaive Hours</th>
                     </tr>
-                    <tr>
-                        <th class="text-left font-normal px-3 py-0.5">1</th>
-                        <th class="text-left font-normal px-3 py-0.5">10/20</th>
-                        <th class="text-left font-normal px-3 py-0.5">16.2</th>
-                        <th class="text-left font-normal px-3 py-0.5">32.5</th>
-                        <th class="text-left font-normal px-3 py-0.5">19.5</th>
-                        <th class="text-left font-normal px-3 py-0.5">6.5</th>
-                        <th class="text-left font-normal px-3 py-0.5"></th>
-                        <th class="text-left font-normal px-3 py-0.5">58.5</th>
-                        <th class="text-left font-normal px-3 py-0.5">58.5</th>
-                    </tr>
-                    <tr>
-                        <th class="text-left font-normal px-3 py-0.5">2</th>
-                        <th class="text-left font-normal px-3 py-0.5">11/20</th>
-                        <th class="text-left font-normal px-3 py-0.5">56.2</th>
-                        <th class="text-left font-normal px-3 py-0.5">13</th>
-                        <th class="text-left font-normal px-3 py-0.5"></th>
-                        <th class="text-left font-normal px-3 py-0.5"></th>
-                        <th class="text-left font-normal px-3 py-0.5">8.5</th>
-                        <th class="text-left font-normal px-3 py-0.5">21.5</th>
-                        <th class="text-left font-normal px-3 py-0.5">80</th>
-                    </tr>
+
+                    @if(!$apprenticeHours->isEmpty())
+                        @php
+                            $cumulativeHours = 0;
+                        @endphp
+
+                        @foreach($apprenticeHours as $hours)
+                            @php
+                                $totalHours = $hours->employer_training + $hours->specialist_training + $hours->training_centre + $hours->vle_training;
+                                $cumulativeHours += $totalHours;
+                            @endphp
+
+                            <tr>
+                                <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400">{{ $hours->month }}</th>
+                                <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400">{{ $hours->date }}</th>
+                                <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400">{{ $hours->training_centre }}</th>
+                                <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400">{{ $hours->employer_training }}</th>
+                                <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400">{{ $hours->specialist_training }}</th>
+                                <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400">{{ $hours->vle_training }}</th>
+                                <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400">{{ $totalHours }}</th>
+                                <th class="text-left font-normal px-3 py-0.5 border-2 border-gray-400">{{ $cumulativeHours }}</th>
+                            </tr>
+                        @endforeach
+                    @endif
                 </table>
             </div>
         </div>

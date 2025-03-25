@@ -21,10 +21,8 @@ class HoursController extends Controller
             $sortDirection = 'asc';
         }
 
-        $apprenticeDuties = Hours::select()
+        $apprenticeHours = Hours::select()
             ->where('apprentice_id', '=', $findApprentice->apprentice_id)
-            ->join('duty', 'duty.duty_id', '=', 'apprentice_duties.duty_id')
-            ->orderBy($sortBy === 'due_date' ? 'due_date' : $sortBy, $sortDirection)
             ->get();
 
         return view('apprentice-hours', compact('apprenticeHours', 'sortBy', 'sortDirection'));

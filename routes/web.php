@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DutyController;
+use App\Http\Controllers\HoursController;
 use App\Http\Controllers\TutorController;
 use App\Http\Controllers\ApprenticeController;
 use App\Http\Controllers\DashboardController;
@@ -42,9 +43,7 @@ Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'veri
 
 Route::get('/progress', [DutyController::class, 'index'])->middleware(['auth', 'verified'])->name('apprentice-progress');
 
-Route::get('/hours', function (Request $request){
-    return view('apprentice-hours');
-})->middleware(['auth', 'verified'])->name('apprentice-hours');
+Route::get('/hours', [HoursController::class, 'index'])->middleware(['auth', 'verified'])->name('apprentice-hours');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
