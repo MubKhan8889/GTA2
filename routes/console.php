@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\DutyCommand;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 

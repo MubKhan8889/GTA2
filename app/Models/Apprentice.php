@@ -43,7 +43,6 @@ class Apprentice extends Model
         return $this->belongsTo(User::class, 'id', 'id');
     }
 
-
     public function apprenticeship()
     {
         return $this->belongsTo(Apprenticeship::class, 'apprenticeship_id');
@@ -54,5 +53,9 @@ class Apprentice extends Model
         return $this->belongsToMany(Duty::class, 'Apprentice_Duties', 'apprentice_id', 'duty_id')
                     ->withPivot('completed_date', 'due_date'); 
     }
-    
+
+    public function hours()
+    {
+        $this->hasMany(Hours::class, 'apprentice_id', 'apprentice_id');
+    }
 }
