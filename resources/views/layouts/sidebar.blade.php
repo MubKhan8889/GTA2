@@ -48,7 +48,8 @@
                 'dashboard',
                 'view_learners',
                 'learner_progress',
-                'apprenticeship'
+                'apprenticeship',
+                'archive_learners'
             );
 
             // Assign buttons to each role
