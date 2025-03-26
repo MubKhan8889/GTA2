@@ -26,6 +26,7 @@ class ApprenticeController extends Controller
         $apprentices = Apprentice::with('user', 'apprenticeship')
                             ->leftJoin('users', 'users.id', '=', 'apprentice.id') 
                             ->orderBy($sortBy === 'name' ? 'users.name' : $sortBy, $sortDirection)
+                            ->whereNull('archived_at')
                             ->get();
     
                             return view('learners.index', compact('apprentices', 'sortBy', 'sortDirection'));
