@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto p-6">
-    <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <h1 class="text-2xl font-bold text-gray-700 mb-4">Edit Apprentice Information</h1>
+<div class="container mx-auto p-6 flex">
+    <div class="mx-auto mb-16 mr-6 bg-white shadow-md rounded-lg p-6 pb-3 flex-grow">
+        <h1 class="text-2xl font-bold text-gray-700 mb-6">Edit Apprentice Information</h1>
 
         @if(session('success'))
         <div id="success-message" style="color: green;">
@@ -115,44 +115,107 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>         
-            <h3 class="mt-6 text-xl font-semibold text-gray-700">Assigned Duties</h3>
-            @if($apprentice->duties->isEmpty())
-                <p>No duties assigned yet.</p>
-            @else
-                <table class="w-full table-auto mt-4">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2">Duty Name</th>
-                            <th class="px-4 py-2">Completed Date</th>
-                            <th class="px-4 py-2">Due Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($apprentice->duties as $duty)
-                            <tr>
-                                <td class="px-4 py-2">{{ $duty->name }}</td>
-                                <td class="px-4 py-2">
-                                    <input type="date" name="duties[{{ $duty->pivot->duty_id }}][completed_date]" 
-                                        value="{{ $duty->pivot->completed_date ?? '' }}" 
-                                        class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300" />
-                                </td>
-                                <td class="px-4 py-2">
-                                    <input type="date" name="duties[{{ $duty->pivot->duty_id }}][due_date]" 
-                                        value="{{ $duty->pivot->due_date ?? '' }}" 
-                                        class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300" />
-                                </td>
-                            </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            @endif
+            </div>
+           
             <button id="update-button" type="submit"
                 class="w-full font-bold py-2 px-4 rounded-lg">
                 Update
             </button>
-
         </form>
+    </div>
+
+    <div class="mx-auto mb-16 bg-white shadow-md rounded-lg p-6 pb-3 flex-grow">
+        <h3 class="mt-6 text-xl font-semibold text-gray-700">Assigned Duties</h3>
+        @if($apprentice->duties->isEmpty())
+            <p>No duties assigned yet.</p>
+        @else
+            <table class="w-full table-auto mt-4">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Duty Name</th>
+                        <th class="px-4 py-2">Completed Date</th>
+                        <th class="px-4 py-2">Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach($apprentice->duties as $duty)
+                        <tr>
+                            <td class="px-4 py-2">{{ $duty->name }}</td>
+                            <td class="px-4 py-2">
+                                <input form="update-form" type="date" name="duties[{{ $duty->pivot->duty_id }}][completed_date]" 
+                                    value="{{ $duty->pivot->completed_date ?? '' }}" 
+                                    class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300" />
+                            </td>
+                            <td class="px-4 py-2">
+                                <input form="update-form" type="date" name="duties[{{ $duty->pivot->duty_id }}][due_date]" 
+                                    value="{{ $duty->pivot->due_date ?? '' }}" 
+                                    class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300" />
+                            </td>
+                        </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @endif
+
+        <h3 class="mt-6 text-xl font-semibold text-gray-700">Hours</h3>
+        @if($apprentice->duties->isEmpty())
+            <p>No hours yet.</p>
+        @else
+            <table class="w-full table-auto mt-4">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Month</th>
+                        <th class="px-4 py-2">Date</th>
+                        <th class="px-4 py-2">Training Center Hours</th>
+                        <th class="px-4 py-2">Employer Training Records</th>
+                        <th class="px-4 py-2">GTA Specialist Training</th>
+                        <th class="px-4 py-2">VLE Training</th>
+                        <th class="px-4 py-2">Total Hours</th>
+                        <th class="px-4 py-2">Cumulaive Hours</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @php
+                    $cumulativeHours = 0;
+                @endphp
+
+                @foreach($apprentice->hours as $hour)
+                    @php
+                        $totalHours = $hour->employer_training + $hour->specialist_training + $hour->training_centre + $hour->vle_training;
+                        $cumulativeHours += $totalHours;
+                    @endphp
+
+                    <tr>
+                        <td class="px-4 py-2">{{ $hour->date }}</td>
+                        <td class="px-4 py-2">{{ $hour->month }}</td>
+                        <td class="px-4 py-2">
+                            <input form="update-form" type="number" step="0.1" name="hours[{{ $hour->otj_hours_id }}][training_centre]" 
+                            value="{{ $hour->training_centre ?? '' }}" 
+                            class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"/>
+                        </td>
+                        <td class="px-4 py-2">
+                            <input form="update-form" type="number" step="0.1" name="hours[{{ $hour->otj_hours_id }}][employer_training]" 
+                            value="{{ $hour->employer_training ?? '' }}" 
+                            class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"/>
+                        </td>
+                        <td class="px-4 py-2">
+                            <input form="update-form" type="number" step="0.1" name="hours[{{ $hour->otj_hours_id }}][specialist_training]" 
+                            value="{{ $hour->specialist_training ?? '' }}" 
+                            class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"/>
+                        </td>
+                        <td class="px-4 py-2">
+                            <input form="update-form" type="number" step="0.1" name="hours[{{ $hour->otj_hours_id }}][vle_training]" 
+                            value="{{ $hour->vle_training ?? '' }}" 
+                            class="w-full border border-gray-300 rounded-md p-2 focus:ring focus:ring-blue-300"/>
+                        </td>
+                        <td class="px-4 py-2">{{ $totalHours }}</td>
+                        <td class="px-4 py-2">{{ $cumulativeHours }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @endif
     </div>
 </div>
 @endsection
