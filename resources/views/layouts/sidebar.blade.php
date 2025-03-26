@@ -36,16 +36,12 @@
             );
 
             $adminButtons = array(
-                'dashboard',
-                'view_accounts',
-                'edit_account_details',
                 'view_learners',
                 'archive_learners',
                 'view_tutors'
             );
 
             $employerButtons = array(
-                'dashboard',
                 'view_learners',
                 'learner_progress',
                 'apprenticeship'
