@@ -13,7 +13,7 @@
                 'apprenticeship' => array('name' => 'Apprenticeship', 'route' => 'apprenticeship'),
                 'learner_progress' => array('name' => 'Apprentice progress', 'route' => 'learners-progress'),
                 'view_learners' => array('name' => 'Apprentices', 'route' => 'learners.index'),
-                'archive_learners' => array('name' => 'Archive Apprentices', 'route' => 'learners.archived'),
+                'archive_learners' => array('name' => 'Archived Apprentices', 'route' => 'learners.archived'),
                 'view_accounts' => array('name' => 'View accounts', 'route' => 'accounts.index'),
                 'edit_account_details' => array('name' => 'Edit account details', 'route' => 'accounts.show'),
                 'view_tutors' => array('name' => 'Tutors', 'route' => 'tutors.index'),
@@ -24,6 +24,13 @@
                 'dashboard',
                 'apprentice_progress',
                 'your_hours',
+                'apprenticeship'
+            );
+
+            $employerButtons = array(
+                'dashboard',
+                'view_learners',
+                'learner_progress',
                 'apprenticeship'
             );
 
@@ -42,12 +49,7 @@
                 'view_tutors'
             );
 
-            $employerButtons = array(
-                'dashboard',
-                'view_learners',
-                'learner_progress',
-                'apprenticeship'
-            );
+            
 
             // Assign buttons to each role
             $roleButtons = array(
