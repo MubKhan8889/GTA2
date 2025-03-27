@@ -1,98 +1,70 @@
-@extends('layouts.auth')
+<x-guest-layout>
+    <form method="POST" action="{{ route('register') }}">
+        @csrf
 
-@section('content')
-<!-- Logo -->
-<div class="d-flex justify-content-center align-items-center mb-4" style="height: 200px;">
-    <img src="{{ asset('assets/images/logo1.png') }}" alt="Logo" class="img-fluid" style="max-height: 100px;">
-</div>
+        <!-- Title -->
+        <div class="mb-8">
+            <h1 class="text-2xl">Register</h1>
+            <hr class="my-2 h-0.5 border-t-0 bg-gray-400 text-gray-600" />
+        </div>
 
-    <h4 class="fw-bold">Create an Account</h4>
-    <p class="mb-0">Please fill in your details to register</p>
+        <!-- Name -->
+        <div>
+            <x-input-label for="name" :value="__('Name')" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        </div>
 
-    <div class="form-body mt-4">
-        <form method="POST" action="{{ route('register') }}" class="row g-3">
-            @csrf
+        <!-- Email Address -->
+        <div class="mt-4">
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
 
-            <!-- Name -->
-            <div class="col-12">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required
-                    autofocus autocomplete="name" placeholder="Enter your name">
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
-            </div>
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
 
-            <!-- Email Address -->
-            <div class="col-12">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}"
-                    required autocomplete="username" placeholder="Enter your email">
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
+            <x-text-input id="password" class="block mt-1 w-full"
+                            type="password"
+                            name="password"
+                            required autocomplete="new-password" />
 
-            <!-- Password -->
-            <div class="col-12">
-                <label for="password" class="form-label">Password</label>
-                <div class="input-group" id="show_hide_password">
-                    <input type="password" class="form-control" id="password" name="password" required
-                        autocomplete="new-password" placeholder="Enter Password">
-                    <a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
-                </div>
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
 
-            <!-- Confirm Password -->
-            <div class="col-12">
-                <label for="password_confirmation" class="form-label">Confirm Password</label>
-                <div class="input-group" id="show_hide_password_confirm">
-                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                        required autocomplete="new-password" placeholder="Confirm Password">
-                    <a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
-                </div>
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div>
+        <!-- Confirm Password -->
+        <div class="mt-4">
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-            <!-- Select Role -->
-            <div class="col-12">
-                <label for="role" class="form-label">Role</label>
-                <select class="form-select" id="role" name="role" class="text-black">
-                    <option value="apprentice" selected class="text-black">Apprentice</option>
-                    <option value="tutor" class="text-black">Tutor</option>
-                    <option value="admin" class="text-black">Admin</option>
-                    <option value="employer" class="text-black">Employer</option>
-                </select>
-            </div>
+            <x-text-input id="password_confirmation" class="block mt-1 w-full"
+                            type="password"
+                            name="password_confirmation" required autocomplete="new-password"/>
 
-            <!-- Register Button -->
-            <div class="col-12">
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-grd-primary">Register</button>
-                </div>
-            </div>
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
 
-            <!-- Login Link -->
-            <div class="col-12">
-                <div class="text-start">
-                    <p class="mb-0">Already have an account? <a href="{{ route('login') }}">Login here</a></p>
-                </div>
-            </div>
-        </form>
-    </div>
+        <!-- Select Role -->
+        <div class="mt-4 flex">
+            <x-input-label for="role" :value="__('Role:')" class="mr-3 h-full my-auto"/>
 
-    <script>
-        $(document).ready(function() {
-            // For password confirmation field
-            $("#show_hide_password_confirm a").on('click', function(event) {
-                event.preventDefault();
-                if ($('#show_hide_password_confirm input').attr("type") == "text") {
-                    $('#show_hide_password_confirm input').attr('type', 'password');
-                    $('#show_hide_password_confirm i').addClass("bi-eye-slash-fill");
-                    $('#show_hide_password_confirm i').removeClass("bi-eye-fill");
-                } else if ($('#show_hide_password_confirm input').attr("type") == "password") {
-                    $('#show_hide_password_confirm input').attr('type', 'text');
-                    $('#show_hide_password_confirm i').removeClass("bi-eye-slash-fill");
-                    $('#show_hide_password_confirm i').addClass("bi-eye-fill");
-                }
-            });
-        });
-    </script>
-@endsection
+            <x-dropdown-list id="role" name="role">
+                <option value="apprentice" selected>Apprentice</option>
+                <option value="tutor">Tutor</option>
+                <option value="admin">Admin</option>
+                <option value="employer">Employer</option>
+            </x-dropdown-list>
+        </div>
+
+        <div class="flex justify-between mt-10">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+                {{ __('Already registered?') }}
+            </a>
+
+            <x-primary-button class="ms-4">
+                {{ __('Register') }}
+            </x-primary-button>
+        </div>
+    </form>
+</x-guest-layout>
