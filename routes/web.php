@@ -1,13 +1,16 @@
 <?php
 
-use App\Http\Controllers\ApprenticeDashboardController;
+use App\Http\Controllers\DutyController;
+use App\Http\Controllers\HoursController;
+use App\Http\Controllers\TutorController;
 use App\Http\Controllers\ApprenticeController;
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\TutorDashboardController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\TutorController;
+use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\ApprenticeDashboardController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\TutorDashboardController;
 use App\Http\Controllers\ApprenticeshipController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,7 +54,7 @@ Route::post('/tutors', [TutorController::class, 'store'])->name('tutors.store');
 Route::get('/tutors/{tutor}', [TutorController::class, 'show'])->name('tutors.show');
 Route::get('/tutors/{tutor}/edit', [TutorController::class, 'edit'])->name('tutors.edit');
 Route::put('/tutors/{tutor}', [TutorController::class, 'update'])->name('tutors.update');
-Route::delete('/tutors/{tutor}', [TutorController::class, 'destroy'])->name('tutors.destroy']);
+Route::delete('/tutors/{tutor}', [TutorController::class, 'destroy'])->name('tutors.destroy');
 
 // Apprenticeship Routes
 Route::get('/apprenticeships', [ApprenticeshipController::class, 'index'])->name('apprenticeships.index');
@@ -62,16 +65,11 @@ Route::post('/apprenticeships/assign', [ApprenticeshipController::class, 'assign
 Route::resource('apprentices', ApprenticeController::class);
 
 // Dashboard (default)
-Route::get('/', [ApprenticeDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // Additional Routes for Apprentice Progress & Hours
-Route::get('/progress', function (Request $request){
-    return view('apprentice-progress');
-})->middleware(['auth', 'verified'])->name('apprentice-progress');
-
-Route::get('/hours', function (Request $request){
-    return view('apprentice-hours');
-})->middleware(['auth', 'verified'])->name('apprentice-hours');
+Route::get('/progress', [DutyController::class, 'index'])->middleware(['auth', 'verified'])->name('apprentice-progress');
+Route::get('/hours', [HoursController::class, 'index'])->middleware(['auth', 'verified'])->name('apprentice-hours');
 
 // Profile Routes
 Route::middleware('auth')->group(function () {
@@ -80,7 +78,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Employer Routes
+Route::prefix('employers')->name('employers.')->group(function () {
+    Route::get('/', [EmployerController::class, 'index'])->name('index');
+    Route::get('/create', [EmployerController::class, 'create'])->name('create');
+    Route::post('/', [EmployerController::class, 'store'])->name('store');
+    Route::get('/{employer}/edit', [EmployerController::class, 'edit'])->name('edit');
+    Route::put('/{employer}', [EmployerController::class, 'update'])->name('update');
+    Route::delete('/{employer}', [EmployerController::class, 'destroy'])->name('destroy');
+});
+
 // Image Display Route
 Route::get('/images/{imageName}', [ImageController::class, 'show'])->name('image.show');
 
 require __DIR__.'/auth.php';
+
