@@ -7,7 +7,6 @@ use App\Http\Controllers\ApprenticeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\EmployerController;
 use Illuminate\Support\Facades\Route;
 
 // All Apprentices:
@@ -51,28 +50,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::prefix('employers')->name('employers.')->group(function () {
-    Route::get('/', [EmployerController::class, 'index'])->name('index');
-    Route::get('/create', [EmployerController::class, 'create'])->name('create');
-    Route::post('/', [EmployerController::class, 'store'])->name('store');
-    Route::get('/{employer}/edit', [EmployerController::class, 'edit'])->name('edit');
-    Route::put('/{employer}', [EmployerController::class, 'update'])->name('update');
-    Route::delete('/{employer}', [EmployerController::class, 'destroy'])->name('destroy');
-});
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/tutors', [TutorController::class, 'index'])->name('tutors.index');
-});
-
-
-
-
-
-
-
-
-
 
 Route::get('/images/{imageName}', [ImageController::class, 'show'])->name('image.show');
 
