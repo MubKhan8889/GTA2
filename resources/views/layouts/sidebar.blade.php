@@ -28,14 +28,12 @@
             );
 
             $employerButtons = array(
-                'dashboard',
                 'view_learners',
                 'learner_progress',
                 'apprenticeship'
             );
 
             $tutorButtons = array(
-                'dashboard',
                 'view_learners',
                 'learner_progress',
                 'archive_learners',
@@ -43,7 +41,6 @@
             );
 
             $adminButtons = array(
-                'dashboard',
                 'view_learners',
                 'archive_learners',
                 'view_tutors'
