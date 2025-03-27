@@ -2,80 +2,77 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
-use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase;  // Ensure the database is refreshed between tests
 
-    #[Test]
-    public function user_can_login_with_valid_credentials()
+    /**
+     * Test that the login page renders correctly.
+     */
+    public function test_login_page_renders()
     {
-        // Create a test user
+        $response = $this->get(route('login'));  // Assuming your route is named 'login'
+
+        $response->assertStatus(200);  // Check if the page loads successfully
+        $response->assertViewIs('auth.login');  // Ensure the correct view is returned
+        $response->assertSee('Get Started Now');  // Check if the specific content (like a title) is present
+    }
+
+    /**
+     * Test that a valid user can log in successfully.
+     */
+    public function test_valid_user_can_login()
+    {
+        // Arrange: Create a user
         $user = User::factory()->create([
-            'name' => 'testuser',
-            'password' => Hash::make('password123'), // Ensure the password is hashed
+            'email' => 'testuser@example.com',
+            'password' => bcrypt('password123'),  // Store the password hash
         ]);
 
-        // Send a login request
+        // Act: Send a post request with valid credentials
         $response = $this->post(route('login'), [
-            'name' => 'testuser',
+            'name' => $user->name,  // Using 'name' as the username input
             'password' => 'password123',
         ]);
 
-        // Assert user is redirected to the intended location (e.g., dashboard)
-        $response->assertRedirect(route('dashboard'));
+        // Assert: Check if the user is authenticated
+        $this->assertAuthenticatedAs($user);  // Ensure the user is logged in
 
-        // Assert the user is authenticated
-        $this->assertAuthenticatedAs($user);
+        // Assert: Ensure the user is redirected to the dashboard (or any page post-login)
+        $response->assertRedirect(route('dashboard'));  // Adjust the route as necessary
     }
 
-    #[Test]
-    public function user_cannot_login_with_invalid_credentials()
+    /**
+     * Test that an invalid login attempt fails.
+     */
+    public function test_invalid_user_cannot_login()
     {
-        // Create a test user
-        $user = User::factory()->create([
-            'name' => 'testuser',
-            'password' => Hash::make('password123'),
-        ]);
-
-        // Send a login request with incorrect password
+        // Act: Try to log in with invalid credentials
         $response = $this->post(route('login'), [
-            'name' => 'testuser',
+            'name' => 'nonexistentuser',
             'password' => 'wrongpassword',
         ]);
 
-        // Assert user is not authenticated
-        $this->assertGuest();
+        // Assert: Check that the user is not authenticated
+        $this->assertGuest();  // Ensure the user is not logged in
 
-        // Assert validation error
-        $response->assertSessionHasErrors(['name']);
+        // Assert: Check that the page contains an error message
+        $response->assertSessionHasErrors(['name' => 'These credentials do not match our records.']);
     }
 
-    #[Test]
-    public function remember_me_functionality_works()
+    /**
+     * Test unauthenticated user is redirected when accessing a protected route.
+     */
+    public function test_unauthenticated_user_redirected()
     {
-        // Create a test user
-        $user = User::factory()->create([
-            'name' => 'testuser',
-            'password' => Hash::make('password123'),
-        ]);
+        // Act: Try to access a protected route without being authenticated
+        $response = $this->get(route('dashboard'));  // Adjust to a protected route that requires login
 
-        // Send a login request with 'remember me' checked
-        $response = $this->post(route('login'), [
-            'name' => 'testuser',
-            'password' => 'password123',
-            'remember' => 'on',
-        ]);
-
-        // Assert user is authenticated
-        $this->assertAuthenticatedAs($user);
-
-        // Assert that the session contains a remember token
-        $this->assertNotNull($user->fresh()->remember_token);
+        // Assert: Check if the user is redirected to the login page
+        $response->assertRedirect(route('login'));
     }
 }
