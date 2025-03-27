@@ -32,6 +32,8 @@ Route::put('/learners/{id}/unarchive', [ApprenticeController::class, 'unarchive'
 // Register Apprentice
 Route::get('/learners/create', [ApprenticeController::class, 'create'])->name('learners.create');
 Route::post('/learners', [ApprenticeController::class, 'store'])->name('learners.store');
+
+// Fetch Apprenticeships on Apprentice Registration
 Route::get('/learners/create', [ApprenticeController::class, 'fetchApprenticeships'])->name('learners.create');
 
 // Apprenticeship Routes
@@ -39,10 +41,10 @@ Route::get('/apprenticeships', [ApprenticeshipController::class, 'index'])->name
 Route::get('/apprenticeships/{id}', [ApprenticeshipController::class, 'show'])->name('apprenticeships.show');
 Route::post('/apprenticeships/assign', [ApprenticeshipController::class, 'assign'])->name('apprenticeships.assign');
 
-// Resources for apprentices
+// Resource Routes for Apprentices
 Route::resource('apprentices', ApprenticeController::class);
 
-// Default Dashboard Route
+// Dashboard (Default)
 Route::get('/', [ApprenticeDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // Additional Routes for Apprentice Progress & Hours
