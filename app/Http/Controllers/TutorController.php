@@ -15,10 +15,11 @@ class TutorController extends Controller
         $sortOrder = $request->query('sort', 'asc'); 
 
         $tutors = Tutor::with('user')
-        ->join('users', 'Tutor.id', '=', 'users.id')
-        ->orderBy('users.name', $sortOrder)
-        ->select('Tutor.*')
-        ->get();
+    ->join('users', 'tutors.id', '=', 'users.id')
+    ->orderBy('users.name', $sortOrder)
+    ->select('tutors.*')
+    ->get();
+
 
         return view('tutors.index', compact('tutors', 'sortOrder'));
     }
@@ -91,5 +92,7 @@ class TutorController extends Controller
             return redirect()->route('tutors.index')->with('error', 'An error occurred while deleting the tutor and user.');
         }
     }
+
+
 
 }
