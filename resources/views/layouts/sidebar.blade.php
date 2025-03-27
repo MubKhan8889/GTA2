@@ -50,9 +50,11 @@
             );
 
             $employerButtons = array(
-                'post_job',
-                'manage_jobs',
-                'employer_profile'
+                'dashboard',
+                'view_learners',
+                'learner_progress',
+                'apprenticeship',
+                'archive_learners'
             );
 
             // Assign buttons to each role
