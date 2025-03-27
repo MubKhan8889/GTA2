@@ -1,33 +1,29 @@
 <?php
 
+use App\Http\Controllers\ApprenticeDashboardController;
 use App\Http\Controllers\ApprenticeController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\TutorDashboardController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TutorController;
+use App\Http\Controllers\ApprenticeshipController;
 use Illuminate\Support\Facades\Route;
 
 // Authentication Routes
 Auth::routes();
 
-// Apprentice Dashboard
-Route::get('/dashboard', [DashboardController::class, 'show'])
-    ->middleware('auth', 'role:apprentice') // Only allows apprentices to view this
-    ->name('dashboard');
+// Admin Dashboard route (protected by admin role)
+Route::middleware(['auth', 'role:admin'])->get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-// Admin Dashboard
-Route::get('/admin/dashboard', [AdminController::class, 'index'])
-    ->middleware('auth', 'role:admin') // Only allows admins to view this
-    ->name('admin.dashboard');
+// Apprentice Dashboard
+Route::middleware('auth')->get('/dashboard', [ApprenticeDashboardController::class, 'index'])->name('dashboard');
 
 // Tutor Dashboard
-Route::get('/tutor/dashboard', [TutorController::class, 'index'])
-    ->middleware('auth', 'role:tutor') // Only allows tutors to view this
-    ->name('tutor.dashboard');
+Route::middleware(['auth', 'role:tutor'])->get('/tutor/dashboard', [TutorDashboardController::class, 'index'])->name('tutor.dashboard');
 
-
-// All Apprentices:
+// All Apprentices
 Route::get('/learners', [ApprenticeController::class, 'index'])->name('learners.index');
 
 // Selected Apprentice
@@ -48,34 +44,43 @@ Route::get('/learners/create', [ApprenticeController::class, 'create'])->name('l
 Route::post('/learners', [ApprenticeController::class, 'store'])->name('learners.store');
 Route::get('/learners/create', [ApprenticeController::class, 'fetchApprenticeships'])->name('learners.create');
 
+// Tutor Routes
 Route::get('/tutors', [TutorController::class, 'index'])->name('tutors.index');
 Route::get('/tutors/create', [TutorController::class, 'create'])->name('tutors.create');
 Route::post('/tutors', [TutorController::class, 'store'])->name('tutors.store');
-Route::get('/tutors/{tutor}', [TutorController::class, 'show'])->name('tutors.show'); 
+Route::get('/tutors/{tutor}', [TutorController::class, 'show'])->name('tutors.show');
 Route::get('/tutors/{tutor}/edit', [TutorController::class, 'edit'])->name('tutors.edit');
-Route::put('/tutors/{tutor}', [TutorController::class, 'update'])->name('tutors.update');  
-Route::delete('/tutors/{tutor}', [TutorController::class, 'destroy'])->name('tutors.destroy'); 
+Route::put('/tutors/{tutor}', [TutorController::class, 'update'])->name('tutors.update');
+Route::delete('/tutors/{tutor}', [TutorController::class, 'destroy'])->name('tutors.destroy']);
 
+// Apprenticeship Routes
+Route::get('/apprenticeships', [ApprenticeshipController::class, 'index'])->name('apprenticeships.index');
+Route::get('/apprenticeships/{id}', [ApprenticeshipController::class, 'show'])->name('apprenticeships.show');
+Route::post('/apprenticeships/assign', [ApprenticeshipController::class, 'assign'])->name('apprenticeships.assign');
+
+// Resources for apprentices
 Route::resource('apprentices', ApprenticeController::class);
-Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 
+// Dashboard (default)
+Route::get('/', [ApprenticeDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+// Additional Routes for Apprentice Progress & Hours
 Route::get('/progress', function (Request $request){
-return view('apprentice-progress');
+    return view('apprentice-progress');
 })->middleware(['auth', 'verified'])->name('apprentice-progress');
 
 Route::get('/hours', function (Request $request){
     return view('apprentice-hours');
 })->middleware(['auth', 'verified'])->name('apprentice-hours');
 
-
-
-
+// Profile Routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Image Display Route
 Route::get('/images/{imageName}', [ImageController::class, 'show'])->name('image.show');
 
 require __DIR__.'/auth.php';
