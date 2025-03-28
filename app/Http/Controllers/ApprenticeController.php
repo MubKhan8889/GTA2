@@ -45,11 +45,11 @@ public function show($apprentice_id)
     $totalDuties = $apprentice->duties->count();
     $completedCount = $apprentice->duties->whereNotNull('pivot.completed_date')->count();
     $inProgressCount = $apprentice->duties->whereNull('pivot.completed_date')
-                                         ->where('pivot.due_date', '>=', now())
-                                         ->count();
+                                          ->where('pivot.due_date', '>=', now())
+                                          ->count();
     $overdueCount = $apprentice->duties->whereNull('pivot.completed_date')
-                                       ->where('pivot.due_date', '<', now())
-                                       ->count();
+                                          ->where('pivot.due_date', '<', now())
+                                          ->count();
 
     $progress = [
         'completed' => $totalDuties > 0 ? round(($completedCount / $totalDuties) * 100, 2) : 0,
