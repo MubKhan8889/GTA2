@@ -22,7 +22,7 @@
             <main class="fixed flex w-full h-full">
                 @include('layouts.sidebar')
 
-                <div class="grow">
+                <div class="grow overflow-y-auto">
                     <!-- Page Heading -->
                     @isset($header)
                         <header class="bg-white shadow">
@@ -32,7 +32,7 @@
                         </header>
                     @endisset
 
-                    {{ $slot }}
+                    @yield('content')
                 </div>
             </main>
         </div>
