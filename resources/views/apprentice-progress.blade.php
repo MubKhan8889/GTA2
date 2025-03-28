@@ -26,15 +26,19 @@
                     </tr>
 
                     @php
-                        $redWidth = round(($overallRAG['red'] / $overallRAG['total']) * 100, 2);
-                        $yellowWidth = round(($overallRAG['yellow'] / $overallRAG['total']) * 100, 2);
-                        $greenWidth = round(($overallRAG['green'] / $overallRAG['total']) * 100, 2);
+                        $redWidth = round(($overallRAG['red'] / $overallRAG['total']) * 100);
+                        $yellowWidth = round(($overallRAG['yellow'] / $overallRAG['total']) * 100);
+                        $greenWidth = round(($overallRAG['green'] / $overallRAG['total']) * 100);
+
+                        $redWidthSet = 'w-[' . $redWidth . '%]';
+                        $yellowWidthSet = 'w-[' . $yellowWidth . '%]';
+                        $greenWidthSet = 'w-[' . $greenWidth . '%]';
                     @endphp
 
                     <tr>
-                        <th class="p-0 border-2 border-gray-400 bg-green-400">{{$greenWidth}}%</th>
-                        <th class="p-0 border-2 border-gray-400 bg-yellow-400">{{$yellowWidth}}%</th>
-                        <th class="p-0 border-2 border-gray-400 bg-red-400">{{$redWidth}}%</th>
+                        <th class="p-0 border-2 border-gray-400"><span class="bg-green-400 inline-block h-5 {{ $redWidthSet }} mr-[100%]"></span></th>
+                        <th class="p-0 border-2 border-gray-400"><span class="bg-yellow-300 inline-block h-5 {{ $yellowWidthSet }} mr-[100%]"></span></th>
+                        <th class="p-0 border-2 border-gray-400"><span class="bg-red-400 inline-block h-5 {{ $greenWidthSet }} mr-[100%]"></span></th>
                     </tr>
                 </table>
 
