@@ -46,7 +46,13 @@
                 'view_tutors'
             );
 
-            
+            $employerButtons = array(
+                'dashboard',
+                'view_learners',
+                'learner_progress',
+                'apprenticeship',
+                'archive_learners'
+            );
 
             // Assign buttons to each role
             $roleButtons = array(

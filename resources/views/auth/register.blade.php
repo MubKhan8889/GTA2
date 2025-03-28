@@ -58,6 +58,7 @@
                     <option value="apprentice" selected class="text-black">Apprentice</option>
                     <option value="tutor" class="text-black">Tutor</option>
                     <option value="admin" class="text-black">Admin</option>
+                    <option value="employer" class="text-black">Employer</option>
                 </select>
             </div>
 
