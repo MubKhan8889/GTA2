@@ -8,15 +8,15 @@ class Assignments extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['apprentice_id', 'apprenticeship_id', 'months'];
-
-    public function apprenticeship()
-    {
-        return $this->belongsTo(Apprenticeship::class);
-    }
+    protected $fillable = ['apprentice_id', 'apprenticeship_id', 'assigned_date'];
 
     public function apprentice()
     {
         return $this->belongsTo(Apprentice::class);
+    }
+
+    public function apprenticeship()
+    {
+        return $this->belongsTo(Apprenticeship::class);
     }
 }
