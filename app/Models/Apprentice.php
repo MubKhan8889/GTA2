@@ -56,6 +56,8 @@ class Apprentice extends Model
 
     public function hours()
     {
+
         return $this->hasMany(Hours::class, 'apprentice_id', 'apprentice_id');
+
     }
 }

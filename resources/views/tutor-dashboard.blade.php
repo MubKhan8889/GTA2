@@ -1,4 +1,5 @@
-<x-app-layout>
+@extends('layouts.app')
+@section('content')
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard for Tutor') }}
@@ -6,29 +7,8 @@
     </x-slot>
 
     <div class="flex">
-        <!-- Sidebar -->
-        <div class="w-1/4 bg-gray-200 h-screen p-4">
-            <div class="bg-gray-300 p-4 text-center font-bold">
-                GTA logo here
-            </div>
-            <ul class="mt-4 space-y-2">
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('dashboard') }}">Dashboard</a>
-                </li>
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('apprentice-progress') }}">Apprentice progress</a>
-                </li>
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('edit-apprentice') }}">Edit apprentice info</a>
-                </li>
-                <li class="p-2 bg-white rounded">
-                    <a href="{{ route('archive-learners') }}">Archive learners</a>
-                </li>
-            </ul>
-        </div>
-
         <!-- Main Content -->
-        <div class="w-3/4 p-6">
+        <div class="p-6">
             <div class="bg-gray-100 p-6 rounded-lg shadow-md">
                 <!-- Display Tutor Name Dynamically -->
                 <h2 class="text-xl font-semibold">
@@ -91,4 +71,5 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+    </div>
+@endsection
