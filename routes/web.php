@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 // Dashboard Routes
-Route::middleware('auth')->get('/dashboard', [ApprenticeDashboardController::class, 'index'])->name('dashboard');
+Route::middleware('auth')->get('/dashboard', [ApprenticeDashboardController::class, 'index'])->name('apprentice.dashboard');
 Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // All Apprentices
@@ -39,8 +39,6 @@ Route::put('/learners/{id}/unarchive', [ApprenticeController::class, 'unarchive'
 // Register Apprentice
 Route::get('/learners/create', [ApprenticeController::class, 'create'])->name('learners.create');
 Route::post('/learners', [ApprenticeController::class, 'store'])->name('learners.store');
-
-// Fetch Apprenticeships
 Route::get('/learners/fetch-apprenticeships', [ApprenticeController::class, 'fetchApprenticeships'])->name('learners.fetch-apprenticeships');
 
 // Apprenticeship Routes (Admin only)
@@ -51,13 +49,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 });
 
 // Tutor Routes
-Route::get('/tutors', [TutorController::class, 'index'])->name('tutors.index');
-Route::get('/tutors/create', [TutorController::class, 'create'])->name('tutors.create');
-Route::post('/tutors', [TutorController::class, 'store'])->name('tutors.store');
-Route::get('/tutors/{tutor}', [TutorController::class, 'show'])->name('tutors.show');
-Route::get('/tutors/{tutor}/edit', [TutorController::class, 'edit'])->name('tutors.edit');
-Route::put('/tutors/{tutor}', [TutorController::class, 'update'])->name('tutors.update');
-Route::delete('/tutors/{tutor}', [TutorController::class, 'destroy'])->name('tutors.destroy');
+Route::resource('tutors', TutorController::class);
 
 // Resource Routes for Apprentices
 Route::resource('apprentices', ApprenticeController::class);
