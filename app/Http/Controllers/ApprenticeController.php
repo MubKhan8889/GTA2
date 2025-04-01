@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hours;
 use App\Models\User;
 use App\Models\Apprenticeship;
 use App\Models\Apprentice;
@@ -166,6 +167,8 @@ public function destroy($id)
 
     try {
         $apprentice = Apprentice::findOrFail($id);
+        $dutiesDeleted = ApprenticeDuty::where('apprentice_id', $apprentice->apprentice_id)->delete();
+        $hoursDeleted = Hours::where('apprentice_id', $apprentice->apprentice_id)->delete(); 
 
         if ($apprentice->id !== null) {
             $user = User::find($apprentice->id);
@@ -174,9 +177,9 @@ public function destroy($id)
                 $user->delete();
             }
         }
-        $dutiesDeleted = ApprenticeDuty::where('apprentice_id', $apprentice->apprentice_id)->delete();
 
         $apprentice->delete();
+        
         DB::commit();
 
         return redirect()->route('learners.index')->with('success', 'Apprentice and related records deleted successfully!');
@@ -218,7 +221,8 @@ public function archivedLearners()
 
 // Returns register apprentice page
 public function Create(){
-    return view('learners.create');
+    $apprenticeships = Apprenticeship::select()->get();
+    return view('learners.create', compact('apprenticeships'));
 }
 
 // Register new Apprentice

@@ -40,7 +40,15 @@ Route::get('/learners/fetch-apprenticeships', [ApprenticeController::class, 'fet
 
 
 // Tutor Routes
-Route::resource('tutors', TutorController::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/tutors', [TutorController::class, 'index'])->name('tutors.index');
+    Route::get('/tutors/create', [TutorController::class, 'create'])->name('tutors.create');
+    Route::post('/tutors', [TutorController::class, 'store'])->name('tutors.store');
+    Route::get('/tutors/{tutor}', [TutorController::class, 'show'])->name('tutors.show'); 
+    Route::get('/tutors/{tutor}/edit', [TutorController::class, 'edit'])->name('tutors.edit');
+    Route::put('/tutors/{tutor}', [TutorController::class, 'update'])->name('tutors.update');  
+    Route::delete('/tutors/{tutor}', [TutorController::class, 'destroy'])->name('tutors.destroy'); 
+});
 
 // Resource Routes for Apprentices
 // Apprenticeship Routes

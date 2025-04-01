@@ -7,7 +7,7 @@
 
 <div class="container mx-auto p-6">
     <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <h1 class="text-2xl font-bold text-gray-700 mb-4">Apprenticeship Management</h1>
+        <h1 class="text-2xl font-bold text-gray-700 mb-4">{{ ($role == "admin") ? "Apprenticeship Management" : "Apprenticeship View"}}</h1>
 
         @if(session('success'))
             <div id="success-message" style="color: green;">
