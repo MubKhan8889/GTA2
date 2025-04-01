@@ -8,6 +8,8 @@ use App\Models\Apprenticeship;
 use App\Models\Apprentice;
 use App\Models\ApprenticeDuty;
 use App\Models\Duty;
+use DateInterval;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -241,6 +243,7 @@ public function store(Request $request)
         'release_day' => 'required|string',
         'apprenticeship_id' => 'required|exists:Apprenticeship,apprenticeship_id',
     ]);
+
     $user = new User([
         'name' => $request->name,
         'email' => $request->email,
@@ -263,6 +266,22 @@ public function store(Request $request)
     ]);
 
     $apprentice->save();
+
+    // Create apprentice duties
+    $apprenticeship = Apprenticeship::select()->where('apprenticeship_id', '=', $apprentice->apprenticeship_id)->first();
+
+    $dt = new DateTime();
+    $deadline = $dt->add(new DateInterval('P1Y'))->format('Y-m-d');
+
+    foreach ($apprenticeship->duties as $duty)
+    {
+        $apprenticeDuty = ApprenticeDuty::create([
+            'apprentice_id' => $apprentice->apprentice_id,
+            'duty_id' => $duty->duty_id,
+            'completed_date' => null,
+            'due_date' => $deadline,
+        ]);
+    }
 
     return redirect()->route('learners.create')->with('success', 'Apprentice registered successfully!');
 }
