@@ -20,10 +20,11 @@ class Apprenticeship extends Model
 
     public function apprentices()
     {
-        return $this->hasMany(Apprentice::class, 'apprenticeship_id');
+        return $this->hasMany(Apprentice::class, 'apprenticeship_id', 'apprenticeship_id');
     }
 
-    // public function tutors(){
-    //     return $this->
-    // }
+    public function duties()
+    {
+        return $this->hasMany(Duty::class, 'apprenticeship_id', 'apprenticeship_id');
+    }
 }

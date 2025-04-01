@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApprenticeshipController;
+use App\Http\Controllers\DutyApprenticeshipController;
 use App\Http\Controllers\DutyController;
 use App\Http\Controllers\HoursController;
 use App\Http\Controllers\TutorController;
@@ -39,6 +41,29 @@ Route::get('/tutors/{tutor}/edit', [TutorController::class, 'edit'])->name('tuto
 Route::put('/tutors/{tutor}', [TutorController::class, 'update'])->name('tutors.update');  
 Route::delete('/tutors/{tutor}', [TutorController::class, 'destroy'])->name('tutors.destroy'); 
 
+// Apprenticeship Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/apprenticeships', [ApprenticeshipController::class, 'index'])->name('apprenticeships.index');
+    Route::get('/apprenticeships/create', [ApprenticeshipController::class, 'create'])->name('apprenticeships.create');
+    Route::post('/apprenticeships', [ApprenticeshipController::class, 'store'])->name('apprenticeships.store');
+    Route::get('/apprenticeships/{apprenticeship}', [ApprenticeshipController::class, 'show'])->name('apprenticeships.show');
+    Route::get('/apprenticeships/{apprenticeship}/edit', [ApprenticeshipController::class, 'edit'])->name('apprenticeships.edit');
+    Route::put('/apprenticeships/{apprenticeship}', [ApprenticeshipController::class, 'update'])->name('apprenticeships.update');
+    Route::delete('/apprenticeships/{apprenticeship}', [ApprenticeshipController::class, 'destroy'])->name('apprenticeships.destroy');
+});
+
+// Duty Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/apprenticeships/{apprenticeship}/duties/create', [DutyApprenticeshipController::class, 'create'])->name('duties.create');
+    Route::post('/apprenticeships/{apprenticeship}/duties', [DutyApprenticeshipController::class, 'store'])->name('duties.store');
+    Route::get('/apprenticeships/{apprenticeship}/duties/{duty}/edit', [DutyApprenticeshipController::class, 'edit'])->name('duties.edit');
+    Route::put('/apprenticeships/{apprenticeship}/duties/{duty}', [DutyApprenticeshipController::class, 'update'])->name('duties.update');
+    Route::delete('/apprenticeships/{apprenticeship}/duties/{duty}', [DutyApprenticeshipController::class, 'destroy'])->name('duties.destroy');
+});
+
+// Resource Routes for Apprentices
+Route::resource('apprentices', ApprenticeController::class);
+
 Route::resource('apprentices', ApprenticeController::class);
 Route::get('/', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -52,6 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Employer routes
 Route::prefix('employers')->name('employers.')->group(function () {
     Route::get('/', [EmployerController::class, 'index'])->name('index');
     Route::get('/create', [EmployerController::class, 'create'])->name('create');

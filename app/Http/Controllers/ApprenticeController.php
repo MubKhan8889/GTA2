@@ -127,7 +127,7 @@ public function update(Request $request, $apprentice_id)
     // Update apprentice duties
     if ($request->has('duties')) {
         foreach ($request->duties as $dutyId => $dutyData) {
-            if (isset($dutyData['completed_date'], $dutyData['due_date'])) {
+            if (isset($dutyData['due_date'])) {
                 $apprentice->duties()->updateExistingPivot($dutyId, [
                     'completed_date' => $dutyData['completed_date'],
                     'due_date' => $dutyData['due_date'],
