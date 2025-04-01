@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form action="{{ route('tutors.update', ['tutor' => $tutor->id]) }}" method="POST">
+<form action="{{ route('tutors.update', ['tutor' => $tutor->tutor_id]) }}" method="POST">
     @csrf
     @method('PUT')
     <input type="text" name="name" value="{{ $tutor->user->name }}" required>

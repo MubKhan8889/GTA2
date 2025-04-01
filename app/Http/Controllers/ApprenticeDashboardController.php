@@ -3,25 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Apprentice;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends Controller
+class ApprenticeDashboardController extends Controller
 {
-    // Display details of a specific apprentice
-    public function show()
+    /**
+     * Show the dashboard for the apprentice.
+     */
+    public function index()
     {
-        if (!Auth::check()) {  redirect()->route('login'); }
+        $apprentice = Auth::user()->apprentice;
+        $duties = $this->getDuties($apprentice);
+        $ragStatus = $this->calculateRagStatus($apprentice);
 
-        if (Auth::user()->role == 'apprentice') { 
-            $userID = Auth::user()->id;
-            $apprentice = Apprentice::select()->where('id', '=', $userID)->first();
-
-            $duties = $this->getDuties($apprentice);
-            $ragStatus = $this->calculateRagStatus($apprentice);
-
-            return view('apprentice-dashboard', compact(['ragStatus', 'duties']));
-        }
-        return redirect()->route('learners.index');
+        return view('dashboard', [
+            'apprentice' => $apprentice,
+            'ragStatus' => $ragStatus,
+            'duties' => $duties
+        ]);
     }
 
     /**
@@ -73,7 +73,7 @@ class DashboardController extends Controller
      */
     private function determineRagColor($percentage)
     {
-       return $percentage >= 75 ? 'green' : ($percentage >= 50 ? 'yellow' : 'red');
+        return $percentage >= 75 ? 'green' : ($percentage >= 50 ? 'yellow' : 'red');
     }
 }
 

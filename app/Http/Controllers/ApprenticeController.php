@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hours;
 use App\Models\User;
 use App\Models\Apprenticeship;
 use App\Models\Apprentice;
 use App\Models\ApprenticeDuty;
 use App\Models\Duty;
+use DateInterval;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -127,7 +130,7 @@ public function update(Request $request, $apprentice_id)
     // Update apprentice duties
     if ($request->has('duties')) {
         foreach ($request->duties as $dutyId => $dutyData) {
-            if (isset($dutyData['completed_date'], $dutyData['due_date'])) {
+            if (isset($dutyData['due_date'])) {
                 $apprentice->duties()->updateExistingPivot($dutyId, [
                     'completed_date' => $dutyData['completed_date'],
                     'due_date' => $dutyData['due_date'],
@@ -166,6 +169,8 @@ public function destroy($id)
 
     try {
         $apprentice = Apprentice::findOrFail($id);
+        $dutiesDeleted = ApprenticeDuty::where('apprentice_id', $apprentice->apprentice_id)->delete();
+        $hoursDeleted = Hours::where('apprentice_id', $apprentice->apprentice_id)->delete(); 
 
         if ($apprentice->id !== null) {
             $user = User::find($apprentice->id);
@@ -174,9 +179,9 @@ public function destroy($id)
                 $user->delete();
             }
         }
-        $dutiesDeleted = ApprenticeDuty::where('apprentice_id', $apprentice->apprentice_id)->delete();
 
         $apprentice->delete();
+        
         DB::commit();
 
         return redirect()->route('learners.index')->with('success', 'Apprentice and related records deleted successfully!');
@@ -218,7 +223,8 @@ public function archivedLearners()
 
 // Returns register apprentice page
 public function Create(){
-    return view('learners.create');
+    $apprenticeships = Apprenticeship::select()->get();
+    return view('learners.create', compact('apprenticeships'));
 }
 
 // Register new Apprentice
@@ -237,6 +243,7 @@ public function store(Request $request)
         'release_day' => 'required|string',
         'apprenticeship_id' => 'required|exists:Apprenticeship,apprenticeship_id',
     ]);
+
     $user = new User([
         'name' => $request->name,
         'email' => $request->email,
@@ -259,6 +266,22 @@ public function store(Request $request)
     ]);
 
     $apprentice->save();
+
+    // Create apprentice duties
+    $apprenticeship = Apprenticeship::select()->where('apprenticeship_id', '=', $apprentice->apprenticeship_id)->first();
+
+    $dt = new DateTime();
+    $deadline = $dt->add(new DateInterval('P1Y'))->format('Y-m-d');
+
+    foreach ($apprenticeship->duties as $duty)
+    {
+        $apprenticeDuty = ApprenticeDuty::create([
+            'apprentice_id' => $apprentice->apprentice_id,
+            'duty_id' => $duty->duty_id,
+            'completed_date' => null,
+            'due_date' => $deadline,
+        ]);
+    }
 
     return redirect()->route('learners.create')->with('success', 'Apprentice registered successfully!');
 }

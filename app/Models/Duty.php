@@ -39,4 +39,9 @@ class Duty extends Model
     {
         return $this->hasMany(ApprenticeDuty::class, 'duty_id', 'duty_id');
     }
+
+    public function apprenticeship()
+    {
+        return $this->belongsTo(Apprenticeship::class, 'apprenticeship_id', 'apprenticeship_id');
+    }
 }
