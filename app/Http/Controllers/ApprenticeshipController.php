@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\ApprenticeDuty;
 use App\Models\Apprenticeship;
 use App\Models\Duty;
-use DB;
 use Illuminate\Http\Request;
+use DB;
 
 class ApprenticeshipController extends Controller
 {

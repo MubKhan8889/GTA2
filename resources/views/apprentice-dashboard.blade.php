@@ -12,7 +12,7 @@
             <div class="bg-gray-100 p-6 rounded-lg shadow-md">
                 <!-- Display Apprentice Name Dynamically -->
                 <h2 class="text-xl font-semibold">
-                    Welcome, {{ Auth::user()->name ?? 'Apprentice' }}
+                    Welcome, {{ $apprentice->user->name ?? 'Apprentice' }}
                 </h2>
 
                 <!-- RAG Status -->
@@ -51,30 +51,9 @@
                                 <li>{{ $duty->name }} (Due: {{ date('F j, Y', strtotime($duty->pivot->due_date)) }})</li>
                             @endforeach
                         </ul>
-
-                        <!-- Overdue Duties -->
-                        <ul x-show="activeTab === 'overdue'" class="list-disc pl-6">
-                            @foreach($duties['overdue'] as $duty)
-                                <li>{{ $duty->name }} (Overdue since: {{ date('F j, Y', strtotime($duty->pivot->due_date)) }})</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Due Dates Section -->
-                <div class="mt-4 grid grid-cols-1 gap-4">
-                    <h3 class="font-semibold">Your Due Dates</h3>
-                    <ul class="list-disc pl-6">
-                        @foreach($duties['inProgress'] as $duty)
-                            <li>{{ $duty->name }} (Due: {{ date('F j, Y', strtotime($duty->pivot->due_date)) }})</li>
-                        @endforeach
-
-                        @foreach($duties['overdue'] as $duty)
-                            <li>{{ $duty->name }} (Overdue since: {{ date('F j, Y', strtotime($duty->pivot->due_date)) }})</li>
-                        @endforeach
-                    </ul>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection
