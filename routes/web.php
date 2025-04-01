@@ -11,11 +11,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TutorController;
 use App\Http\Controllers\DashboardController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-// Authentication Routes
-Auth::routes();
 
 // Dashboard Routes
 Route::middleware('auth')->get('/dashboard', [ApprenticeDashboardController::class, 'index'])->name('apprentice.dashboard');
