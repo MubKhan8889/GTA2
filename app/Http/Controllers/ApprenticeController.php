@@ -106,6 +106,8 @@ public function update(Request $request, $apprentice_id)
         'release_day' => 'nullable|string|in:Monday,Tuesday,Wednesday,Thursday,Friday',
         'duties' => 'nullable|array',
         'duties.*.duty_id' => 'exists:duties,duty_id',
+        'hours' => 'nullable|array',
+        'hours.*.otj_hours_id' => 'exists:hours,otj_hours_id',
     ]);
 
     // Update user record
@@ -138,6 +140,19 @@ public function update(Request $request, $apprentice_id)
             }
         }
     }
+
+     // Update apprentice duties
+     if ($request->has('hours')) {
+        foreach ($request->hours as $hourId => $hourData) {
+            $apprentice->hours()->where('otj_hours_id', '=', $hourId)->update([
+                'training_centre' => $hourData['training_centre'],
+                'employer_training' => $hourData['employer_training'],
+                'specialist_training' => $hourData['specialist_training'],
+                'vle_training' => $hourData['vle_training'],
+            ]);
+        }
+    }
+
     $totalDuties = $apprentice->duties->count();
     $completedCount = $apprentice->duties->whereNotNull('pivot.completed_date')->count();
     $inProgressCount = $apprentice->duties->whereNull('pivot.completed_date')
