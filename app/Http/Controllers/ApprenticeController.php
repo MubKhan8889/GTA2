@@ -283,6 +283,18 @@ public function store(Request $request)
         ]);
     }
 
+    for ($m = 0; $m < $apprenticeship->months; $m++)
+    {
+        $dt = new DateTime();
+        $dtUpdate = $dt->add(new DateInterval('P' . $m . 'M'))->format('Y-m-d');
+
+        $hour = Hours::create([
+            'apprentice_id' => $apprentice->apprentice_id,
+            'month' => $m + 1,
+            'date' => $dtUpdate,
+        ]);
+    }
+
     return redirect()->route('learners.create')->with('success', 'Apprentice registered successfully!');
 }
 
