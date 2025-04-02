@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@php
+    $role = Auth::user()->role;
+@endphp
+
 @section('content')
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -41,11 +45,13 @@
                                         </form> || 
 
                                         <!-- Delete Button (Only for Admins) -->
-                                        <form action="{{ route('learners.destroy', $apprentice->apprentice_id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this apprentice?')" class="text-red-500 hover:underline">Delete</button>
-                                        </form>
+                                        @if ($role == "admin")
+                                            <form action="{{ route('learners.destroy', $apprentice->apprentice_id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" onclick="return confirm('Are you sure you want to delete this apprentice?')" class="text-red-500 hover:underline">Delete</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
