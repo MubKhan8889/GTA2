@@ -15,19 +15,6 @@
                     Welcome, {{ $apprentice->user->name ?? 'Apprentice' }}
                 </h2>
 
-                <!-- RAG Status -->
-                <div class="mt-4">
-                    <h3 class="font-semibold">Overall RAG</h3>
-                    <div class="flex items-center space-x-2">
-                        <span class="bg-{{ $ragStatus['progress'] }}-500 w-6 h-6 inline-block"></span> 
-                        <span>Progress RAG</span>
-                        <span class="bg-{{ $ragStatus['otj'] }}-500 w-6 h-6 inline-block"></span> 
-                        <span>OTJ RAG</span>
-                        <span class="bg-{{ $ragStatus['employment'] }}-500 w-6 h-6 inline-block"></span> 
-                        <span>Employment RAG</span>
-                    </div>
-                </div>
-
                 <!-- Interactive Skills Section -->
                 <div class="mt-4" x-data="{ activeTab: 'progress' }">
                     <h3 class="font-semibold">Skills Progress</h3>
