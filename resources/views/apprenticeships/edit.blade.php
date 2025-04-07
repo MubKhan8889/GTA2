@@ -63,7 +63,9 @@
                     <tr class="bg-gray-200">
                         <th class="border p-2">Name</th>
                         <th class="border p-2">Duration</th>
-                        <th class="border p-2">Action</th>
+                        @if ($isAdmin)
+                            <th class="border p-2">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -71,14 +73,16 @@
                         <tr>
                             <td class="border p-2">{{ $duty->name }}</td>
                             <td class="border p-2">{{ $duty->duration }}</td>
-                            <td class="border p-2">
-                                <a href="{{ route('duties.edit', ['duty' => $duty, 'apprenticeship' => $apprenticeship]) }}" class="text-blue-500">Edit</a>
-                                <form action="{{ route('duties.destroy', ['duty' => $duty, 'apprenticeship' => $apprenticeship]) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500" onclick="return confirm('Are you sure?')">Delete</button>
-                                </form>
-                            </td>
+                            @if ($isAdmin)
+                                <td class="border p-2">
+                                    <a href="{{ route('duties.edit', ['duty' => $duty, 'apprenticeship' => $apprenticeship]) }}" class="text-blue-500">Edit</a>
+                                    <form action="{{ route('duties.destroy', ['duty' => $duty, 'apprenticeship' => $apprenticeship]) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-500" onclick="return confirm('Are you sure?')">Delete</button>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>
